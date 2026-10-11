@@ -12,17 +12,7 @@ import { cn } from "@/lib/utils"
 const Logo3D = dynamic(() => import("./Logo3D"), { ssr: false })
 
 function Brand({ locale, onNavigate }: { locale: Locale; onNavigate: () => void }) {
-  const modelRef = useRef<HTMLElement | null>(null)
-  useEffect(() => {
-    let angle = 0
-    const onWheel = (event: WheelEvent) => {
-      angle = (angle + event.deltaY * 0.3) % 360
-      modelRef.current?.setAttribute("orientation", `${angle}deg 0deg 0deg`)
-    }
-    window.addEventListener("wheel", onWheel, { passive: true })
-    return () => window.removeEventListener("wheel", onWheel)
-  }, [])
-  return <a href={languageChoiceHref("home", locale)} onClick={onNavigate} className="flex items-center gap-3 px-6 py-7"><div className="flex h-[72px] w-[72px] shrink-0 items-center justify-center"><Logo3D modelRef={modelRef} alt={locale === "en" ? "Iván Zavala 3D logo" : "Logotipo 3D de Iván Zavala"} /></div><span className="text-sm font-semibold tracking-tight">iván zavala</span></a>
+  return <a href={languageChoiceHref("home", locale)} onClick={onNavigate} className="flex items-center gap-3 px-6 py-7"><div className="flex h-[72px] w-[72px] shrink-0 items-center justify-center"><Logo3D alt={locale === "en" ? "Iván Zavala 3D logo" : "Logotipo 3D de Iván Zavala"} /></div><span className="text-sm font-semibold tracking-tight">iván zavala</span></a>
 }
 
 export function SidebarNav({ activePage, locale }: { activePage: PageId; locale: Locale }) {

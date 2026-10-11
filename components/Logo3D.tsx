@@ -3,8 +3,9 @@
 import { useEffect, useRef, useState } from "react"
 import { useTheme } from "next-themes"
 
-export default function Logo3D({ modelRef, alt = "Logotipo 3D de Iván Zavala" }: { modelRef: any; alt?: string }) {
+export default function Logo3D({ alt = "Logotipo 3D de Iván Zavala" }: { alt?: string }) {
   const [ready, setReady] = useState(false)
+  const modelRef = useRef<HTMLElement | null>(null)
   const { resolvedTheme } = useTheme()
   const isDark = resolvedTheme === "dark"
   const originalColorsRef = useRef<Map<number, [number, number, number, number]>>(new Map())
@@ -66,6 +67,74 @@ export default function Logo3D({ modelRef, alt = "Logotipo 3D de Iván Zavala" }
       cancelled = true
     }
   }, [])
+
+  useEffect(() => {
+    if (!ready) return
+    const model = modelRef.current as (HTMLElement & { loaded: boolean }) | null
+    if (!model) return
+
+    let frame = 0
+    let resetZoom: ReturnType<typeof setTimeout> | undefined
+    let currentAngle = 0
+    let targetAngle = 0
+    let currentZoom = 1
+    let targetZoom = 1
+    let lastScrollY = window.scrollY
+    let lastWheelAt = -Infinity
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)")
+
+    const animate = () => {
+      frame = 0
+      if (!model.loaded || document.hidden || !model.getClientRects().length) return
+
+      const settled = Math.abs(targetAngle - currentAngle) < 0.05 && Math.abs(targetZoom - currentZoom) < 0.001
+      currentAngle = settled ? targetAngle : currentAngle + (targetAngle - currentAngle) * 0.18
+      currentZoom = settled ? targetZoom : currentZoom + (targetZoom - currentZoom) * 0.12
+      model.setAttribute("orientation", `${(currentAngle % 360).toFixed(2)}deg 0deg 0deg`)
+      model.setAttribute("camera-orbit", `0deg 75deg ${(4.5 / currentZoom).toFixed(3)}m`)
+      if (!settled) frame = requestAnimationFrame(animate)
+    }
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(animate)
+    }
+    const rotate = (delta: number) => {
+      if (!delta || reducedMotion.matches) return
+      targetAngle += delta * 0.6
+      targetZoom = 1.65
+      if (resetZoom) clearTimeout(resetZoom)
+      resetZoom = setTimeout(() => { targetZoom = 1; schedule() }, 160)
+      schedule()
+    }
+    const onWheel = (event: WheelEvent) => {
+      if (event.ctrlKey) return
+      lastWheelAt = performance.now()
+      const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? window.innerHeight : 1
+      rotate(event.deltaY * unit)
+    }
+    const onScroll = () => {
+      const delta = window.scrollY - lastScrollY
+      lastScrollY = window.scrollY
+      // Wheel input already accounts for its scroll; this covers touch and keyboard.
+      if (performance.now() - lastWheelAt > 200) rotate(delta)
+    }
+    const onVisibilityChange = () => {
+      lastScrollY = window.scrollY
+      if (!document.hidden) schedule()
+    }
+    model.addEventListener("load", schedule)
+    window.addEventListener("wheel", onWheel, { passive: true })
+    window.addEventListener("scroll", onScroll, { passive: true })
+    document.addEventListener("visibilitychange", onVisibilityChange)
+    schedule()
+    return () => {
+      cancelAnimationFrame(frame)
+      if (resetZoom) clearTimeout(resetZoom)
+      model.removeEventListener("load", schedule)
+      window.removeEventListener("wheel", onWheel)
+      window.removeEventListener("scroll", onScroll)
+      document.removeEventListener("visibilitychange", onVisibilityChange)
+    }
+  }, [ready])
 
   useEffect(() => {
     if (!ready) return
@@ -131,18 +200,18 @@ export default function Logo3D({ modelRef, alt = "Logotipo 3D de Iván Zavala" }
       loading="eager"
       camera-target="auto auto auto"
       camera-orbit="0deg 75deg 4.5m"
-      min-camera-orbit="auto auto 3.5m"
+      min-camera-orbit="auto auto 2.5m"
       max-camera-orbit="auto auto 7m"
       camera-controls
+      disable-zoom
+      disable-pan
       interaction-prompt="none"
       environment-image="neutral"
       exposure={isDark ? "1.65" : "1.4"}
       shadow-intensity={isDark ? "0.08" : "0.6"}
       shadow-softness={isDark ? "1.6" : "1"}
       auto-play
-     ref={(el: HTMLElement | null) => {
-       if (el) modelRef.current = el
-       }}
+      ref={modelRef}
 
       style={{
         width: 56,
