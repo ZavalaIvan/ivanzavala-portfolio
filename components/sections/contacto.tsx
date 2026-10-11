@@ -35,13 +35,13 @@ export function ContactoSection({ locale }: { locale: Locale }) {
       }
     : {
         title: "Contacto",
-        subtitle: "Tienes un proyecto en mente? Hablemos.",
+        subtitle: "¿Tienes un proyecto en mente? Hablemos.",
         copyEmail: "Copiar email",
-        response: "Respondo en menos de 24 horas. Cuentame sobre tu proyecto y agendamos una llamada.",
+        response: "Respondo en menos de 24 horas. Cuéntame sobre tu proyecto y agendamos una llamada.",
         whatsappCta: "Escribirme por WhatsApp",
         social: "Redes",
-        ctaTitle: "Listo para construir tu proximo producto?",
-        ctaText: "Enviame un email con una breve descripcion de tu proyecto. Sin compromiso, sin formalidades. Solo una conversacion para ver si encajamos.",
+        ctaTitle: "¿Listo para construir tu próximo producto?",
+        ctaText: "Envíame un email con una breve descripción de tu proyecto. Sin compromiso, sin formalidades. Solo una conversación para ver si encajamos.",
         sendEmail: "Enviar email",
       }
 

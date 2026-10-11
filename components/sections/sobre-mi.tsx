@@ -324,14 +324,14 @@ export function SobreMiSection({ locale }: { locale: Locale }) {
       values: "Values",
     }
   : {
-      title: "Sobre mi",
+      title: "Sobre mí",
       role: "Desarrollador Web Full-Stack & Product Builder",
       intro: [
-        "Soy desarrollador web full-stack con enfoque en construir productos digitales que generan impacto real en los negocios. No solo escribo codigo: pienso en el producto, en los usuarios y en los resultados.",
-        "Mi especialidad es transformar ideas en soluciones funcionales, llevandolas desde cero hasta un producto listo para usuarios reales. Trabajo con startups, emprendedores y empresas que necesitan moverse rapido sin comprometer la calidad, la escalabilidad ni la experiencia.",
-        "Mi trayectoria comenzo en el diseño y el marketing. Inicie como diseñador grafico enfocado en branding, construyendo identidades visuales solidas y coherentes. Con el tiempo, expandi mi enfoque hacia el marketing digital y el posicionamiento de marca, entendiendo no solo como se ve una marca, sino como se comunica, como compite y como conecta con su audiencia.",
-        "Esa base estrategica hoy define mi manera de desarrollar: cada proyecto que construyo integra diseño, experiencia de usuario, narrativa de marca y objetivos de negocio. No desarrollo solo interfaces; construyo productos alineados con una vision clara y una intencion comercial definida.",
-        "Creo que la mejor tecnologia es la que desaparece: los usuarios no deberian notar el stack tecnico, solo una experiencia intuitiva, limpia y eficiente que simplemente funciona.",
+        "Soy desarrollador web full-stack con enfoque en construir productos digitales que generan impacto real en los negocios. No solo escribo código: pienso en el producto, en los usuarios y en los resultados.",
+        "Mi especialidad es transformar ideas en soluciones funcionales, llevándolas desde cero hasta un producto listo para usuarios reales. Trabajo con startups, emprendedores y empresas que necesitan moverse rápido sin comprometer la calidad, la escalabilidad ni la experiencia.",
+        "Mi trayectoria comenzó en el diseño y el marketing. Inicié como diseñador gráfico enfocado en branding, construyendo identidades visuales sólidas y coherentes. Con el tiempo, expandí mi enfoque hacia el marketing digital y el posicionamiento de marca, entendiendo no solo cómo se ve una marca, sino cómo se comunica, cómo compite y cómo conecta con su audiencia.",
+        "Esa base estratégica hoy define mi manera de desarrollar: cada proyecto que construyo integra diseño, experiencia de usuario, narrativa de marca y objetivos de negocio. No desarrollo solo interfaces; construyo productos alineados con una visión clara y una intención comercial definida.",
+        "Creo que la mejor tecnología es la que desaparece: los usuarios no deberían notar el stack técnico, solo una experiencia intuitiva, limpia y eficiente que simplemente funciona.",
       ],
       experience: "Experiencia",
       values: "Valores",
@@ -415,7 +415,7 @@ export function SobreMiSection({ locale }: { locale: Locale }) {
           ],
         },
         {
-          role: "Desarrollador Web Senior",
+          role: "Desarrollador Web Sénior",
           icon: "senior-dev" as const,
           period: "2019 - 2022",
           summary: "Lideré el desarrollo técnico de proyectos web para clientes corporativos y marcas consolidadas.",
@@ -471,10 +471,10 @@ export function SobreMiSection({ locale }: { locale: Locale }) {
         { title: "Impact", description: "Every line of code should create business value." },
       ]
     : [
-        { title: "Pragmatismo", description: "La mejor solucion es la que funciona y se entrega a tiempo." },
-        { title: "Claridad", description: "Comunicacion directa, sin jerga innecesaria." },
-        { title: "Calidad", description: "Codigo limpio, interfaces intuitivas, productos que duran." },
-        { title: "Impacto", description: "Cada linea de codigo debe aportar valor al negocio." },
+        { title: "Pragmatismo", description: "La mejor solución es la que funciona y se entrega a tiempo." },
+        { title: "Claridad", description: "Comunicación directa, sin jerga innecesaria." },
+        { title: "Calidad", description: "Código limpio, interfaces intuitivas, productos que duran." },
+        { title: "Impacto", description: "Cada línea de código debe aportar valor al negocio." },
       ]
 
   return (
@@ -493,11 +493,11 @@ export function SobreMiSection({ locale }: { locale: Locale }) {
               ? "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Iva%CC%81n%20Zavala%20-%20Logotipos_Si%CC%81mbolo-OX2gTSRLKkyuwwhLQviltBSK2kTmvf.jpg"
               : "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Iva%CC%81n%20Zavala%20-%20Logotipos_Si%CC%81mbolo%20copia%203-zgdHPescRfuE1x79003LfznmLGwqie.jpg"
             }
-            alt="Ivan Zavala"
+            alt="Iván Zavala"
             className="h-20 w-20 rounded-lg border border-border"
           />
           <div className="flex flex-col gap-1">
-            <h2 className="text-lg font-bold text-foreground">Ivan Zavala</h2>
+            <h2 className="text-lg font-bold text-foreground">Iván Zavala</h2>
             <p className="text-sm text-muted-foreground">{t.role}</p>
             <div className="flex items-center gap-3 mt-1">
               <span className="flex items-center gap-1 text-xs text-muted-foreground">
@@ -578,7 +578,7 @@ export function SobreMiSection({ locale }: { locale: Locale }) {
 
       <motion.div {...fadeUp} transition={{ duration: 0.5, delay: 0.75 }} className="flex flex-col items-center gap-6">
         <h2 className="text-sm font-semibold tracking-wide text-foreground">
-          {locale === "en" ? "Technologies and tools I work with" : "Tecnologias y herramientas que manejo"}
+          {locale === "en" ? "Technologies and tools I work with" : "Tecnologías y herramientas que manejo"}
         </h2>
         <TechSphere isDark={theme === "dark"} />
       </motion.div>

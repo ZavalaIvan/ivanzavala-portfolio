@@ -108,7 +108,7 @@ export default function Logo3D({ modelRef }: { modelRef: any }) {
     return (
       <img
         src="/logo-ivan-zavala.jpg"
-        alt="Logo Ivan Zavala"
+        alt="Logo de Iván Zavala"
         style={{
           width: 56,
           height: 56,

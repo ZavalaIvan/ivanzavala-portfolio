@@ -42,7 +42,7 @@ const getServiciosData = (locale: Locale): Record<string, ServiceData> => ({
     description:
       locale === "en"
         ? "I build your minimum viable product with the right technology, focused on validating your business idea quickly without sacrificing quality."
-        : "Construyo tu producto minimo viable con la tecnologia correcta, enfocado en validar tu idea de negocio lo mas rapido posible sin sacrificar calidad.",
+        : "Construyo tu producto mínimo viable con la tecnología correcta, enfocado en validar tu idea de negocio lo más rápido posible sin sacrificar calidad.",
     features: locale === "en"
       ? [
           "Product analysis and planning",
@@ -53,19 +53,19 @@ const getServiciosData = (locale: Locale): Record<string, ServiceData> => ({
           "Technical documentation included",
         ]
       : [
-          "Analisis y planificacion de producto",
-          "Diseno de interfaz funcional",
+          "Análisis y planificación de producto",
+          "Diseño de interfaz funcional",
           "Desarrollo full-stack completo",
-          "Deploy y configuracion en produccion",
+          "Deploy y configuración en producción",
           "Iteraciones basadas en feedback",
-          "Documentacion tecnica incluida",
+          "Documentación técnica incluida",
         ],
-    cta: locale === "en" ? "Contact me for your MVP" : "Contactame para tu MVP",
-    includesTitle: locale === "en" ? "What's included?" : "Que incluye?",
+    cta: locale === "en" ? "Contact me for your MVP" : "Contáctame para tu MVP",
+    includesTitle: locale === "en" ? "What's included?" : "¿Qué incluye?",
   },
   "servicios-automatizacion": {
-    title: locale === "en" ? "Automation" : "Automatizacion",
-    subtitle: locale === "en" ? "Less manual work, more outcomes" : "Menos trabajo manual, mas resultados",
+    title: locale === "en" ? "Automation" : "Automatización",
+    subtitle: locale === "en" ? "Less manual work, more outcomes" : "Menos trabajo manual, más resultados",
     icon: <WrenchIcon size={20} />,
     description:
       locale === "en"
@@ -81,24 +81,24 @@ const getServiciosData = (locale: Locale): Record<string, ServiceData> => ({
           "Configurable monitoring and alerts",
         ]
       : [
-          "Integracion de APIs y servicios",
-          "Automatizacion de flujos de trabajo",
+          "Integración de APIs y servicios",
+          "Automatización de flujos de trabajo",
           "Webhooks y eventos en tiempo real",
-          "Reportes automaticos",
-          "Sincronizacion de datos entre plataformas",
+          "Reportes automáticos",
+          "Sincronización de datos entre plataformas",
           "Monitoreo y alertas configurables",
         ],
     cta: locale === "en" ? "Automate your business" : "Automatiza tu negocio",
-    includesTitle: locale === "en" ? "What's included?" : "Que incluye?",
+    includesTitle: locale === "en" ? "What's included?" : "¿Qué incluye?",
   },
   "servicios-soporte": {
-    title: locale === "en" ? "Technical Support" : "Soporte Tecnico",
+    title: locale === "en" ? "Technical Support" : "Soporte Técnico",
     subtitle: locale === "en" ? "Your business always running" : "Tu negocio siempre funcionando",
     icon: <AudioLinesIcon size={20} />,
     description:
       locale === "en"
         ? "Continuous maintenance, incremental improvements, and technical support to keep your digital product running smoothly."
-        : "Mantenimiento continuo, mejoras incrementales y soporte tecnico para que tu producto digital funcione sin interrupciones.",
+        : "Mantenimiento continuo, mejoras incrementales y soporte técnico para que tu producto digital funcione sin interrupciones.",
     features: locale === "en"
       ? [
           "Preventive and corrective maintenance",
@@ -111,13 +111,13 @@ const getServiciosData = (locale: Locale): Record<string, ServiceData> => ({
       : [
           "Mantenimiento preventivo y correctivo",
           "Actualizaciones de dependencias",
-          "Optimizacion de rendimiento",
+          "Optimización de rendimiento",
           "Monitoreo de uptime y errores",
           "Soluciones de hosting y correo empresarial",
           "Soporte prioritario por conexión remota",
         ],
     cta: locale === "en" ? "Request support" : "Solicita soporte",
-    includesTitle: locale === "en" ? "What's included?" : "Que incluye?",
+    includesTitle: locale === "en" ? "What's included?" : "¿Qué incluye?",
   },
 })
 
@@ -130,9 +130,9 @@ export function ServiciosSection({ type, onNavigate, locale }: { type: "servicio
         { title: "Executive reporting", description: "Build daily and weekly reports from multiple tools and deliver them automatically to your team.", image: "/reportes-auto.webp" },
       ]
     : [
-        { title: "Flujo de leads de ventas", description: "Captura leads desde formularios, calificalos y envialos a tu CRM con notificaciones inmediatas.", image: "/zapier-workflow.webp" },
-        { title: "Facturacion y seguimiento", description: "Genera facturas, envia recordatorios y actualiza estados de pago sin gestion manual.", image: "/n8n-workflow.png" },
-        { title: "Reportes ejecutivos", description: "Construye reportes diarios y semanales desde varias herramientas y entregalos automaticamente a tu equipo.", image: "/reportes-auto.webp" },
+        { title: "Flujo de leads de ventas", description: "Captura leads desde formularios, califícalos y envíalos a tu CRM con notificaciones inmediatas.", image: "/zapier-workflow.webp" },
+        { title: "Facturación y seguimiento", description: "Genera facturas, envía recordatorios y actualiza estados de pago sin gestión manual.", image: "/n8n-workflow.png" },
+        { title: "Reportes ejecutivos", description: "Construye reportes diarios y semanales desde varias herramientas y entrégalos automáticamente a tu equipo.", image: "/reportes-auto.webp" },
       ]
   const supportExamples = locale === "en"
     ? [
@@ -141,9 +141,9 @@ export function ServiciosSection({ type, onNavigate, locale }: { type: "servicio
         { title: "Maintenance and updates", description: "Dependency updates, security patches, and preventive reviews to avoid issues with computer equipment.", image: "/windows-prob.jpg" },
       ]
     : [
-        { title: "Soporte de correo y hosting", description: "Soporte tecnico enfocado en configuracion de servidores de correo, registros DNS (SPF, DKIM, DMARC), entregabilidad e incidencias web.", image: "/hosting-soporte.png" },
-        { title: "Rendimiento y estabilidad", description: "Soporte continuo para detectar cuellos de botella, reducir caidas y mantener estable tu plataforma web.", image: "/console-informe-rendimiento.webp" },
-        { title: "Mantenimiento y actualizaciones", description: "Actualizacion de dependencias, parches de seguridad y revisiones preventivas para evitar problemas con equipos de computo.", image: "/windows-prob.jpg" },
+        { title: "Soporte de correo y hosting", description: "Soporte técnico enfocado en configuración de servidores de correo, registros DNS (SPF, DKIM, DMARC), entregabilidad e incidencias web.", image: "/hosting-soporte.png" },
+        { title: "Rendimiento y estabilidad", description: "Soporte continuo para detectar cuellos de botella, reducir caídas y mantener estable tu plataforma web.", image: "/console-informe-rendimiento.webp" },
+        { title: "Mantenimiento y actualizaciones", description: "Actualización de dependencias, parches de seguridad y revisiones preventivas para evitar problemas con equipos de cómputo.", image: "/windows-prob.jpg" },
       ]
 
   return (
@@ -231,12 +231,12 @@ export function ServiciosSection({ type, onNavigate, locale }: { type: "servicio
 
           <div className="flex flex-col gap-2">
             <h3 className="text-sm font-semibold text-foreground">
-              {locale === "en" ? "No logo or branding yet?" : "No tienes logo o branding?"}
+              {locale === "en" ? "No logo or branding yet?" : "¿No tienes logo o branding?"}
             </h3>
             <p className="text-sm text-muted-foreground leading-relaxed">
               {locale === "en"
                 ? "I can include complementary services to complete your MVP: visual design, branding, animation, and video editing, so your product launches with a solid and professional identity."
-                : "Tambien puedo incluir servicios complementarios para completar tu MVP: diseno visual, branding, animacion y edicion de video, para que tu producto salga con una identidad solida y profesional."}
+                : "También puedo incluir servicios complementarios para completar tu MVP: diseño visual, branding, animación y edición de video, para que tu producto salga con una identidad sólida y profesional."}
             </p>
           </div>
         </motion.div>

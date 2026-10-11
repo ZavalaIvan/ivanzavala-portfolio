@@ -2,8 +2,8 @@ import type { Metadata } from "next"
 import { SeoPresentationSection } from "@/components/sections/seo-presentation"
 
 export const metadata: Metadata = {
-  title: "SEO Presentation | Ivan Zavala",
-  description: "Presentacion breve de servicios SEO: que es, por que importa y que incluye exactamente.",
+  title: "Presentación SEO | Iván Zavala",
+  description: "Presentación breve de servicios SEO: qué es, por qué importa y qué incluye exactamente.",
 }
 
 export default function SeoPresentationPage() {

@@ -56,13 +56,13 @@ export function InicioSection({ onNavigate, locale }: { onNavigate: (section: st
         },
         {
           icon: <Rocket className="h-5 w-5" />,
-          title: "MVPs Rapidos",
-          description: "De idea a producto funcional. Sin sobre-ingenieria.",
+          title: "MVPs Rápidos",
+          description: "De idea a producto funcional. Sin sobreingeniería.",
         },
         {
           icon: <Layers className="h-5 w-5" />,
           title: "Producto Real",
-          description: "Enfoque en negocio, no solo en codigo. Resultados medibles.",
+          description: "Enfoque en negocio, no solo en código. Resultados medibles.",
         },
       ]
 

@@ -75,7 +75,7 @@ const getNavItems = (locale: Locale): NavItem[] => [
     iconSize: 16,
     children: [
       { id: "servicios-mvps", label: "MVPs", icon: ZapIcon, iconSize: 14 },
-      { id: "servicios-automatizacion", label: locale === "en" ? "Automation" : "Automatizacion", icon: WrenchIcon, iconSize: 14 },
+      { id: "servicios-automatizacion", label: locale === "en" ? "Automation" : "Automatización", icon: WrenchIcon, iconSize: 14 },
       { id: "servicios-soporte", label: locale === "en" ? "Support" : "Soporte", icon: AudioLinesIcon, iconSize: 14 },
     ],
   },
@@ -85,11 +85,11 @@ const getNavItems = (locale: Locale): NavItem[] => [
     icon: GitBranchIcon,
     iconSize: 16,
     children: [
-      { id: "proceso-metodologia", label: locale === "en" ? "Methodology" : "Metodologia", icon: WorkflowIcon, iconSize: 14 },
+      { id: "proceso-metodologia", label: locale === "en" ? "Methodology" : "Metodología", icon: WorkflowIcon, iconSize: 14 },
       { id: "proceso-precios", label: locale === "en" ? "Pricing / Models" : "Precios / Modelos", icon: DollarSignIcon, iconSize: 14 },
     ],
   },
-  { id: "sobre-mi", label: locale === "en" ? "About me" : "Sobre mi", icon: UserIcon, iconSize: 16 },
+  { id: "sobre-mi", label: locale === "en" ? "About me" : "Sobre mí", icon: UserIcon, iconSize: 16 },
   { id: "contacto", label: locale === "en" ? "Contact" : "Contacto", icon: MailCheckIcon, iconSize: 16 },
 ]
 interface SidebarNavProps {
@@ -242,7 +242,7 @@ export function SidebarNav({ activeSection, onNavigate, locale, onLocaleChange }
   }
 
   const sidebarContent = (
-    <nav className="flex flex-col h-full" role="navigation" aria-label={locale === "en" ? "Main navigation" : "Navegacion principal"}>
+    <nav className="flex flex-col h-full" role="navigation" aria-label={locale === "en" ? "Main navigation" : "Navegación principal"}>
       <div className="px-6 py-8">
         <button onClick={() => handleNavigate("inicio")} className="flex items-center gap-3 group">
           <div
@@ -403,7 +403,7 @@ export function SidebarNav({ activeSection, onNavigate, locale, onLocaleChange }
         >
           <EarthIcon size={16} ref={(node: AnimatedIconHandle | null) => setIconRef(languageIconKey, node)} />
           <span className="font-medium">
-            {locale === "en" ? "Language: English" : "Idioma: Espanol"}
+            {locale === "en" ? "Language: English" : "Idioma: Español"}
           </span>
         </button>
 

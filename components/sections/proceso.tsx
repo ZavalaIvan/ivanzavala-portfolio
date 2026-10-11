@@ -46,12 +46,12 @@ const getSteps = (locale: Locale) =>
         {
           number: "01",
           title: "Descubrimiento",
-          description: "Entiendo tu negocio, tus usuarios y el problema que quieres resolver. Definimos alcance, prioridades y metricas de exito.",
+          description: "Entiendo tu negocio, tus usuarios y el problema que quieres resolver. Definimos alcance, prioridades y métricas de éxito.",
         },
         {
           number: "02",
-          title: "Diseno & Arquitectura",
-          description: "Diseno la interfaz y la arquitectura tecnica. Prototipos rapidos para validar antes de escribir codigo.",
+          title: "Diseño & Arquitectura",
+          description: "Diseño la interfaz y la arquitectura técnica. Prototipos rápidos para validar antes de escribir código.",
         },
         {
           number: "03",
@@ -61,12 +61,12 @@ const getSteps = (locale: Locale) =>
         {
           number: "04",
           title: "Lanzamiento",
-          description: "Deploy a produccion, configuracion de dominio, analytics y monitoreo. Tu producto listo para usuarios reales.",
+          description: "Deploy a producción, configuración de dominio, analytics y monitoreo. Tu producto listo para usuarios reales.",
         },
         {
           number: "05",
-          title: "Iteracion & Soporte",
-          description: "Mejoras basadas en datos reales, correccion de bugs y soporte continuo. Tu producto evoluciona contigo.",
+          title: "Iteración & Soporte",
+          description: "Mejoras basadas en datos reales, corrección de bugs y soporte continuo. Tu producto evoluciona contigo.",
         },
       ]
 
@@ -127,40 +127,40 @@ const getPricingModels = (locale: Locale) =>
       ]
     : [
         {
-          name: "Diseno Web",
+          name: "Diseño Web",
           description: "Para marcas que necesitan una presencia profesional, clara y lista para convertir.",
           features: [
-            "Diseno UX/UI para web corporativa o landing page",
-            "Estructura de contenidos y jerarquia visual",
-            "Diseno responsive (desktop, tablet y movil)",
+            "Diseño UX/UI para web corporativa o landing page",
+            "Estructura de contenidos y jerarquía visual",
+            "Diseño responsive (desktop, tablet y móvil)",
             "Prototipo navegable y sistema de estilos base",
           ],
           highlight: false,
         },
         {
           name: "MVP Sprint",
-          description: "Ideal para validar una idea rapidamente.",
+          description: "Ideal para validar una idea rápidamente.",
           features: ["Producto funcional en 2-4 semanas", "Hasta 5 funcionalidades core", "1 ronda de revisiones", "Deploy incluido"],
           highlight: false,
         },
         {
           name: "Producto Completo",
-          description: "Para proyectos que necesitan mas profundidad.",
-          features: ["Desarrollo de 4-8 semanas", "Funcionalidades ilimitadas (priorizadas)", "Revisiones continuas", "Soporte post-lanzamiento 30 dias"],
+          description: "Para proyectos que necesitan más profundidad.",
+          features: ["Desarrollo de 4-8 semanas", "Funcionalidades ilimitadas (priorizadas)", "Revisiones continuas", "Soporte poslanzamiento durante 30 días"],
           highlight: true,
         },
         {
           name: "Retainer Mensual",
           description: "Soporte y desarrollo continuo para tu producto.",
-          features: ["Horas dedicadas al mes", "Prioridad en comunicacion", "Mejoras iterativas", "Monitoreo y mantenimiento"],
+          features: ["Horas dedicadas al mes", "Prioridad en comunicación", "Mejoras iterativas", "Monitoreo y mantenimiento"],
           highlight: false,
         },
         {
-          name: "Soporte Tecnico",
-          description: "Acompanamiento continuo para mantener estabilidad, seguridad y rendimiento del producto.",
+          name: "Soporte Técnico",
+          description: "Acompañamiento continuo para mantener estabilidad, seguridad y rendimiento del producto.",
           features: [
             "Mantenimiento preventivo y correctivo",
-            "Actualizacion de dependencias y parches criticos",
+            "Actualización de dependencias y parches críticos",
             "Mesa de ayuda con tiempos de respuesta definidos",
             "Monitoreo base de uptime y errores",
           ],
@@ -168,12 +168,12 @@ const getPricingModels = (locale: Locale) =>
         },
         {
           name: "Posicionamiento SEO",
-          description: "Optimizacion tecnica y de contenidos para aumentar visibilidad organica y atraer trafico de calidad.",
+          description: "Optimización técnica y de contenidos para aumentar visibilidad orgánica y atraer tráfico de calidad.",
           features: [
-            "Auditoria SEO on-page y tecnica inicial",
-            "Optimizacion de estructura, metadatos y enlazado interno",
+            "Auditoría SEO on-page y técnica inicial",
+            "Optimización de estructura, metadatos y enlazado interno",
             "Mejoras de rendimiento Core Web Vitals",
-            "Seguimiento con reportes y plan de iteracion mensual",
+            "Seguimiento con reportes y plan de iteración mensual",
           ],
           highlight: false,
         },
@@ -190,7 +190,7 @@ export function MetodologiaSection({ locale }: { locale: Locale }) {
           <div className="flex items-center justify-center h-9 w-9 rounded-md bg-accent text-foreground">
             <WorkflowIcon size={20} />
           </div>
-          <h1 className="text-2xl font-bold tracking-tight">{locale === "en" ? "Methodology" : "Metodologia"}</h1>
+          <h1 className="text-2xl font-bold tracking-tight">{locale === "en" ? "Methodology" : "Metodología"}</h1>
         </motion.div>
         <motion.p {...fadeUp} transition={{ duration: 0.5, delay: 0.15 }} className="text-sm text-muted-foreground">
           {locale === "en"
@@ -277,7 +277,7 @@ export function PreciosSection({ onNavigate, locale }: { onNavigate: (section: s
             >
               {model.highlight && (
                 <span className="text-[10px] font-mono uppercase tracking-wider text-emerald-400">
-                  {locale === "en" ? "Most popular" : "Mas popular"}
+                  {locale === "en" ? "Most popular" : "Más popular"}
                 </span>
               )}
               <div className="flex flex-col gap-1">
@@ -301,7 +301,7 @@ export function PreciosSection({ onNavigate, locale }: { onNavigate: (section: s
         <p className="text-sm text-muted-foreground leading-relaxed">
           {locale === "en"
             ? "Every project is unique. Pricing is defined after a discovery call where we align on real scope."
-            : "Cada proyecto es unico. Los precios se definen despues de una llamada de descubrimiento donde entendemos el alcance real."}
+            : "Cada proyecto es único. Los precios se definen después de una llamada de descubrimiento donde entendemos el alcance real."}
           <button
             onClick={() => onNavigate("contacto")}
             className="group inline-flex items-center gap-1 ml-1 text-foreground font-medium hover:underline"
