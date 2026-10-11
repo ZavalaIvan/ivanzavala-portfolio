@@ -97,4 +97,3 @@ export function pageMetadata(id: PageId, locale: Locale): Metadata {
     twitter: { card: "summary", title, description: page.descriptions[locale], images: [siteUrl + "/logo-ivan-zavala.jpg"] },
   }
 }
-

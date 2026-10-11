@@ -18,4 +18,3 @@ export function SiteDocument({ children, locale }: { children: ReactNode; locale
     </html>
   )
 }
-
