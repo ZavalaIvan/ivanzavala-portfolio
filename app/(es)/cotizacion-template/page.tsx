@@ -4,6 +4,7 @@ import { CotizacionTemplateSection } from "@/components/sections/cotizacion-temp
 export const metadata: Metadata = {
   title: "Plantilla de cotización | Iván Zavala",
   description: "Plantilla visual de cotización con logo, contacto y estructura documental.",
+  robots: { index: false, follow: false },
 }
 
 export default function CotizacionTemplatePage() {

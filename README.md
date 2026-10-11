@@ -1,4 +1,4 @@
-# Portafolio de Ivan Zavala
+# Portafolio de Iván Zavala
 
 Sitio: https://ivanzavala.dev
 
@@ -31,6 +31,19 @@ git push origin main
 
 El historial del portafolio se conserva en este repositorio. El repositorio anterior es https://github.com/ZavalaIvan/iz-portfolio.
 
-## Configuración de servicios
+## Contenido y rutas
+
+La versión española comienza en `/` y la inglesa en `/en`. Cada servicio, colección de proyectos y página informativa tiene una dirección propia. El selector de idioma conserva la página equivalente.
+
+- `lib/site.ts`: rutas, contacto, títulos y descripciones para buscadores.
+- `lib/services.ts`: textos, alcance y preguntas frecuentes de los servicios.
+- `components/sections/`: portada, perfil, proyectos, proceso y contacto.
+- `app/sitemap.ts` y `app/robots.ts`: descubrimiento de las páginas públicas.
+
+Los proyectos recientes identifican los estados **Listo** y **En desarrollo**. Las galerías separan las demostraciones de los sitios publicados. Actualiza esos estados cuando exista una entrega confirmada.
+
+El formulario de contacto prepara un mensaje local para que el visitante lo revise y envíe desde su correo o WhatsApp. No almacena consultas ni envía mensajes automáticamente. Las condiciones de garantía y el costo del mantenimiento se acuerdan en cada propuesta.
+
+## Servicios de contadores QR
 
 Las funciones de contadores QR utilizan `NEXT_PUBLIC_SUPABASE_URL` y `SUPABASE_SERVICE_ROLE_KEY`. La configuración de producción permanece en Vercel. Si necesitas estas funciones localmente, configura las variables en `.env.local`, que está excluido de Git. No publiques claves privadas.

@@ -2,10 +2,11 @@
 
 import { useEffect, useMemo, useRef, useState } from "react"
 import { motion } from "framer-motion"
-import { Blocks, Code2, CodeXml, MapPin, Megaphone, Palette, Rocket } from "lucide-react"
+import Link from "next/link"
+import { MapPin } from "lucide-react"
 import { useTheme } from "next-themes"
-import type { Locale } from "@/app/page"
-import { UserIcon } from "@/components/ui/user"
+import { pageHref, type Locale } from "@/lib/site"
+import { cardClass, ContactCta, SectionHeading } from "@/components/section-ui"
 
 const fadeUp = {
   initial: { opacity: 0, y: 20 },
@@ -278,310 +279,46 @@ function TechSphere({ isDark }: { isDark: boolean }) {
   )
 }
 
-type ExperienceIconName = "product" | "senior-dev" | "frontend" | "marketing" | "design"
-
-function ExperienceIcon({ icon, isDark }: { icon: ExperienceIconName; isDark: boolean }) {
-  const icons = {
-    product: Rocket,
-    "senior-dev": CodeXml,
-    frontend: Blocks,
-    marketing: Megaphone,
-    design: Palette,
-  }
-
-  const Icon = icons[icon]
-
-  return (
-    <motion.div
-      animate={{ y: [0, -1.5, 0], scale: [1, 1.04, 1] }}
-      transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
-      className={`flex items-center justify-center h-8 w-8 rounded-md shrink-0 ${
-        isDark
-          ? "border border-emerald-400/20 bg-secondary shadow-[0_0_18px_rgba(16,185,129,0.08)]"
-          : "border border-slate-900/12 bg-slate-950/[0.03] shadow-[0_8px_18px_rgba(15,23,42,0.08)]"
-      }`}
-    >
-      <Icon className={isDark ? "h-4 w-4 text-emerald-400" : "h-4 w-4 text-slate-900"} />
-    </motion.div>
-  )
-}
 
 export function SobreMiSection({ locale }: { locale: Locale }) {
-  const { theme } = useTheme()
-
-  const t = locale === "en"
-  ? {
-      title: "About me",
-      role: "Full-Stack Web Developer & Product Builder",
-      intro: [
-        "I am a full-stack web developer focused on building digital products that create real business impact. I do not just write code — I think in product, users, and outcomes.",
-        "My specialty is transforming ideas into functional solutions, taking them from zero to a product ready for real users. I work with startups, founders, and companies that need to move fast without compromising quality, scalability, or user experience.",
-        "My background started in design and marketing. I began as a graphic designer focused on branding, building strong and coherent visual identities. Over time, I expanded into digital marketing and brand positioning, understanding not only how a brand looks, but how it communicates, competes, and connects with its audience.",
-        "Today, that strategic foundation defines how I build. Every project integrates design, user experience, brand narrative, and business objectives. I do not just develop interfaces — I build products aligned with a clear vision and commercial intention.",
-        "I believe the best technology is invisible: users should not notice the tech stack, only a clean, intuitive, and efficient experience that simply works.",
-      ],
-      experience: "Experience",
-      values: "Values",
-    }
-  : {
-      title: "Sobre mí",
-      role: "Desarrollador Web Full-Stack & Product Builder",
-      intro: [
-        "Soy desarrollador web full-stack con enfoque en construir productos digitales que generan impacto real en los negocios. No solo escribo código: pienso en el producto, en los usuarios y en los resultados.",
-        "Mi especialidad es transformar ideas en soluciones funcionales, llevándolas desde cero hasta un producto listo para usuarios reales. Trabajo con startups, emprendedores y empresas que necesitan moverse rápido sin comprometer la calidad, la escalabilidad ni la experiencia.",
-        "Mi trayectoria comenzó en el diseño y el marketing. Inicié como diseñador gráfico enfocado en branding, construyendo identidades visuales sólidas y coherentes. Con el tiempo, expandí mi enfoque hacia el marketing digital y el posicionamiento de marca, entendiendo no solo cómo se ve una marca, sino cómo se comunica, cómo compite y cómo conecta con su audiencia.",
-        "Esa base estratégica hoy define mi manera de desarrollar: cada proyecto que construyo integra diseño, experiencia de usuario, narrativa de marca y objetivos de negocio. No desarrollo solo interfaces; construyo productos alineados con una visión clara y una intención comercial definida.",
-        "Creo que la mejor tecnología es la que desaparece: los usuarios no deberían notar el stack técnico, solo una experiencia intuitiva, limpia y eficiente que simplemente funciona.",
-      ],
-      experience: "Experiencia",
-      values: "Valores",
-    };
-    
-  const experienceItems = locale === "en"
-    ? [
-        {
-          role: "Full-Stack Developer & Product Builder",
-          icon: "product" as const,
-          period: "2022 - Present",
-          summary: "Development of MVPs and digital products for startups and growing businesses.",
-          highlights: [
-            "Build digital products end-to-end, from concept through launch.",
-            "Design full-stack architectures focused on scalability.",
-            "Integrate UX, brand narrative, and business goals into each product.",
-            "Develop with a focus on performance, user experience, and market validation.",
-            "Collaborate directly with founders to define product strategy and technical roadmap.",
-          ],
-        },
-        {
-          role: "Senior Web Developer",
-          icon: "senior-dev" as const,
-          period: "2019 - 2022",
-          summary: "Led web development for enterprise clients and established brands.",
-          highlights: [
-            "Directed technical decisions and application architecture.",
-            "Built advanced experiences with JavaScript, React, and GSAP.",
-            "Optimized performance and interactive UX.",
-            "Coordinated frontend teams with design and marketing.",
-          ],
-        },
-        {
-          role: "Frontend Developer",
-          icon: "frontend" as const,
-          period: "2015 - 2019",
-          summary: "Responsible for modern interfaces focused on user experience.",
-          highlights: [
-            "Built applications with HTML, CSS, JavaScript, and WordPress.",
-            "Created reusable component systems.",
-            "Designed and executed UX/UI improvements.",
-            "Worked closely with product and design teams.",
-          ],
-        },
-        {
-          role: "Digital Marketing Specialist",
-          icon: "marketing" as const,
-          period: "2012 - 2015",
-          summary: "Managed digital campaigns and brand positioning in competitive markets.",
-          highlights: [
-            "Defined digital advertising strategies.",
-            "Created conversion-focused content.",
-            "Developed brand positioning and communication.",
-            "Analyzed metrics and optimized results.",
-          ],
-        },
-        {
-          role: "Graphic Designer (Branding & Advertising)",
-          icon: "design" as const,
-          period: "2010 - 2012",
-          summary: "Built visual identities and advertising assets for emerging brands.",
-          highlights: [
-            "Designed corporate identity systems.",
-            "Developed print and digital advertising pieces.",
-            "Defined coherent and strategic visual guidelines.",
-          ],
-        },
-      ]
-    : [
-        {
-          role: "Desarrollador Full-Stack & Product Builder",
-          icon: "product" as const,
-          period: "2022 - Presente",
-          summary: "Diseño y desarrollo productos digitales end-to-end para startups y negocios en crecimiento.",
-          highlights: [
-            "Construcción de MVPs desde cero hasta lanzamiento.",
-            "Arquitectura full-stack orientada a escalabilidad.",
-            "Integración de UX, narrativa de marca y objetivos comerciales en cada producto.",
-            "Desarrollo con enfoque en performance, experiencia de usuario y validación de mercado.",
-            "Colaboración directa con founders para definir estrategia de producto y roadmap técnico.",
-          ],
-        },
-        {
-          role: "Desarrollador Web Sénior",
-          icon: "senior-dev" as const,
-          period: "2019 - 2022",
-          summary: "Lideré el desarrollo técnico de proyectos web para clientes corporativos y marcas consolidadas.",
-          highlights: [
-            "Dirección técnica y toma de decisiones arquitectónicas.",
-            "Desarrollo avanzado con JavaScript, React y animaciones con GSAP.",
-            "Optimización de performance y experiencia interactiva.",
-            "Coordinación de equipo frontend y colaboración con diseño y marketing.",
-          ],
-        },
-        {
-          role: "Desarrollador Frontend",
-          icon: "frontend" as const,
-          period: "2015 - 2019",
-          summary: "Responsable del desarrollo de interfaces modernas enfocadas en experiencia de usuario.",
-          highlights: [
-            "Implementación de aplicaciones con HTML, CSS, JavaScript y WordPress.",
-            "Creación de sistemas de componentes reutilizables.",
-            "Diseño y ejecución de mejoras UX/UI.",
-            "Colaboración cercana con equipos de producto y diseño.",
-          ],
-        },
-        {
-          role: "Especialista en Marketing Digital",
-          icon: "marketing" as const,
-          period: "2012 - 2015",
-          summary: "Gestión de campañas digitales y posicionamiento de marca en entornos competitivos.",
-          highlights: [
-            "Estrategias de publicidad digital (ads).",
-            "Creación de contenido orientado a conversión.",
-            "Desarrollo de posicionamiento y comunicación de marca.",
-            "Análisis de métricas y optimización de resultados.",
-          ],
-        },
-        {
-          role: "Diseñador Gráfico (Branding & Publicidad)",
-          icon: "design" as const,
-          period: "2010 - 2012",
-          summary: "Construcción de identidades visuales y materiales publicitarios para marcas emergentes.",
-          highlights: [
-            "Diseño de identidad corporativa.",
-            "Desarrollo de piezas publicitarias impresas y digitales.",
-            "Definición de lineamientos visuales coherentes y estratégicos.",
-          ],
-        },
-      ]
-
-  const valueItems = locale === "en"
-    ? [
-        { title: "Pragmatism", description: "The best solution is the one that works and ships on time." },
-        { title: "Clarity", description: "Direct communication, no unnecessary jargon." },
-        { title: "Quality", description: "Clean code, intuitive interfaces, durable products." },
-        { title: "Impact", description: "Every line of code should create business value." },
-      ]
-    : [
-        { title: "Pragmatismo", description: "La mejor solución es la que funciona y se entrega a tiempo." },
-        { title: "Claridad", description: "Comunicación directa, sin jerga innecesaria." },
-        { title: "Calidad", description: "Código limpio, interfaces intuitivas, productos que duran." },
-        { title: "Impacto", description: "Cada línea de código debe aportar valor al negocio." },
-      ]
-
-  return (
-    <div className="flex flex-col gap-10 py-8">
-      <div className="flex flex-col gap-6">
-        <motion.div {...fadeUp} transition={{ duration: 0.5, delay: 0.1 }} className="flex items-center gap-3">
-          <div className="flex items-center justify-center h-9 w-9 rounded-md bg-accent text-foreground">
-            <UserIcon size={20} />
-          </div>
-          <h1 className="text-2xl font-bold tracking-tight">{t.title}</h1>
-        </motion.div>
-
-        <motion.div {...fadeUp} transition={{ duration: 0.5, delay: 0.2 }} className="flex items-center gap-6">
-          <img
-            src={theme === "light"
-              ? "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Iva%CC%81n%20Zavala%20-%20Logotipos_Si%CC%81mbolo-OX2gTSRLKkyuwwhLQviltBSK2kTmvf.jpg"
-              : "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Iva%CC%81n%20Zavala%20-%20Logotipos_Si%CC%81mbolo%20copia%203-zgdHPescRfuE1x79003LfznmLGwqie.jpg"
-            }
-            alt="Iván Zavala"
-            className="h-20 w-20 rounded-lg border border-border"
-          />
-          <div className="flex flex-col gap-1">
-            <h2 className="text-lg font-bold text-foreground">Iván Zavala</h2>
-            <p className="text-sm text-muted-foreground">{t.role}</p>
-            <div className="flex items-center gap-3 mt-1">
-              <span className="flex items-center gap-1 text-xs text-muted-foreground">
-                <MapPin className="h-3 w-3" />
-                {locale === "en" ? "Remote" : "Remoto"}
-              </span>
-              <span className="flex items-center gap-1 text-xs text-muted-foreground">
-                <Code2 className="h-3 w-3" />
-                Full-Stack
-              </span>
-            </div>
-          </div>
-        </motion.div>
-      </div>
-
-      <motion.div {...fadeUp} transition={{ duration: 0.5, delay: 0.3 }} className="flex flex-col gap-4">
-        <div className="p-6 rounded-lg border border-border bg-card">
-          <div className="flex flex-col gap-4 text-sm text-muted-foreground leading-relaxed">
-            {t.intro.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
-          </div>
-        </div>
-      </motion.div>
-
-      <motion.div {...fadeUp} transition={{ duration: 0.5, delay: 0.6 }} className="flex flex-col gap-4">
-        <h2 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">{t.values}</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          {valueItems.map((value) => (
-            <div
-              key={value.title}
-              className="flex flex-col gap-1.5 p-4 rounded-lg bg-secondary/50"
-            >
-              <h3 className="text-sm font-semibold text-foreground">{value.title}</h3>
-              <p className="text-xs text-muted-foreground leading-relaxed">{value.description}</p>
-            </div>
-          ))}
-        </div>
-      </motion.div>
-
-      <motion.div {...fadeUp} transition={{ duration: 0.5, delay: 0.4 }} className="flex flex-col gap-4">
-        <h2 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">{t.experience}</h2>
-        <div className="flex flex-col gap-3">
-          {experienceItems.map((exp, i) => (
-            <motion.div
-              key={exp.period}
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.3, delay: 0.45 + i * 0.1 }}
-              className="flex gap-4 p-4 rounded-lg border border-border bg-card hover:border-muted-foreground/20 transition-all duration-300"
-            >
-              <ExperienceIcon icon={exp.icon} isDark={theme === "dark"} />
-              <div className="flex flex-col gap-1">
-                <h3 className="text-sm font-semibold text-foreground">{exp.role}</h3>
-                <p className="text-xs text-muted-foreground">{exp.period}</p>
-                <p className="text-sm text-muted-foreground mt-1">{exp.summary}</p>
-                <ul className="mt-2 flex flex-col gap-2">
-                  {exp.highlights.map((highlight) => (
-                    <li key={highlight} className="flex items-start gap-2.5 text-sm text-muted-foreground leading-relaxed">
-                      <span
-                        className={`mt-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-sm shrink-0 ${
-                          theme === "dark"
-                            ? "border border-emerald-400/50 bg-emerald-400/10 shadow-[0_0_12px_rgba(52,211,153,0.2)]"
-                            : "border border-slate-900/15 bg-slate-950/[0.03] shadow-[0_6px_14px_rgba(15,23,42,0.08)]"
-                        }`}
-                      >
-                        <span className={theme === "dark" ? "h-1.5 w-1.5 rounded-[2px] bg-emerald-400" : "h-1.5 w-1.5 rounded-[2px] bg-slate-900"} />
-                      </span>
-                      <span>{highlight}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </motion.div>
-
-      <motion.div {...fadeUp} transition={{ duration: 0.5, delay: 0.75 }} className="flex flex-col items-center gap-6">
-        <h2 className="text-sm font-semibold tracking-wide text-foreground">
-          {locale === "en" ? "Technologies and tools I work with" : "Tecnologías y herramientas que manejo"}
-        </h2>
-        <TechSphere isDark={theme === "dark"} />
-      </motion.div>
-    </div>
-  )
+  const { resolvedTheme } = useTheme()
+  const en = locale === "en"
+  const paragraphs = en ? [
+    "I'm Iván Zavala, a consultant and developer specializing in software, automation and artificial intelligence. I help growing businesses connect their tools and build solutions around their operations.",
+    "My background combines software development, design and digital marketing. That multidisciplinary experience helps me understand the technical requirements of a project and the business goals behind it.",
+    "I work directly with you from planning and design to implementation, launch and training. We review progress together and define a solution around your users, your tools and your priorities.",
+  ] : [
+    "Soy Iván Zavala, consultor y desarrollador especializado en software, automatización e inteligencia artificial. Ayudo a negocios en crecimiento a conectar sus herramientas y construir soluciones alrededor de su operación.",
+    "Mi trayectoria combina desarrollo de software, diseño y marketing digital. Esa experiencia multidisciplinaria me permite comprender los requisitos técnicos de un proyecto y los objetivos de negocio que lo motivan.",
+    "Trabajo directamente contigo desde la planeación y el diseño hasta la implementación, la puesta en marcha y la capacitación. Revisamos los avances juntos y definimos la solución alrededor de tus usuarios, tus herramientas y tus prioridades.",
+  ]
+  const capabilities = en ? [
+    ["Software and integrations", "Custom web applications, business systems and connections between tools."],
+    ["Automation and artificial intelligence", "Workflows and agents adapted to your business information and processes."],
+    ["Design and digital strategy", "User experience, website design, SEO and Google and Meta advertising campaigns."],
+  ] : [
+    ["Software e integraciones", "Aplicaciones web a medida, sistemas de negocio y conexiones entre herramientas."],
+    ["Automatización e inteligencia artificial", "Flujos y agentes adaptados a la información y los procesos de tu negocio."],
+    ["Diseño y estrategia digital", "Experiencia de usuario, diseño web, SEO y campañas publicitarias en Google y Meta."],
+  ]
+  const values = en ? [
+    ["Clarity", "A defined scope and direct communication about decisions and progress."],
+    ["Business context", "Start with the problem and choose technology that serves the solution."],
+    ["Quality", "Attention to usability, implementation and testing of the agreed functions."],
+    ["Continuity", "Training at handover, a bug-fix warranty and optional monthly maintenance."],
+  ] : [
+    ["Claridad", "Un alcance definido y comunicación directa sobre las decisiones y los avances."],
+    ["Contexto del negocio", "Partir del problema y elegir tecnología que contribuya a la solución."],
+    ["Calidad", "Atención a la experiencia de uso, la implementación y las pruebas de las funciones acordadas."],
+    ["Continuidad", "Capacitación al entregar, garantía de correcciones y mantenimiento mensual opcional."],
+  ]
+  return <div className="flex flex-col gap-10 py-6">
+    <SectionHeading label={en ? "About me" : "Sobre mí"} title="Iván Zavala" description={en ? "Software, automation and AI consultant and developer" : "Consultor y desarrollador de software, automatización e inteligencia artificial"} />
+    <p className="flex items-center gap-2 text-sm text-muted-foreground"><MapPin aria-hidden="true" className="h-4 w-4" />{en ? "Remote projects · English & Spanish" : "Proyectos remotos · Español e inglés"}</p>
+    <section className={`${cardClass} flex flex-col gap-4`}>{paragraphs.map(paragraph => <p key={paragraph} className="text-sm leading-relaxed text-muted-foreground">{paragraph}</p>)}</section>
+    <section className="flex flex-col gap-4"><h2 className="text-xl font-semibold">{en ? "A connected view of your project" : "Una visión integral de tu proyecto"}</h2><div className="grid gap-4 md:grid-cols-3">{capabilities.map(([title, description]) => <article key={title} className={`${cardClass} flex flex-col gap-3`}><h3 className="text-base font-semibold">{title}</h3><p className="text-sm leading-relaxed text-muted-foreground">{description}</p></article>)}</div></section>
+    <section className="flex flex-col gap-4"><h2 className="text-xl font-semibold">{en ? "How I approach the work" : "Cómo abordo el trabajo"}</h2><div className="grid gap-3 sm:grid-cols-2">{values.map(([title, description]) => <article key={title} className="rounded-lg bg-secondary/50 p-4"><h3 className="text-sm font-semibold">{title}</h3><p className="mt-2 text-sm leading-relaxed text-muted-foreground">{description}</p></article>)}</div><Link href={pageHref("methodology", locale)} className="text-sm underline underline-offset-4">{en ? "Explore the project process" : "Conoce el proceso de trabajo"}</Link></section>
+    <section className="flex flex-col items-center gap-6 overflow-hidden"><h2 className="text-lg font-semibold text-center">{en ? "Technologies and tools" : "Tecnologías y herramientas"}</h2><TechSphere isDark={resolvedTheme === "dark"} /></section>
+    <ContactCta locale={locale} />
+  </div>
 }

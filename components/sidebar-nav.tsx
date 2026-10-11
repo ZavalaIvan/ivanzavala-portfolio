@@ -1,462 +1,71 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
+import Link from "next/link"
 import dynamic from "next/dynamic"
-import { motion, AnimatePresence } from "framer-motion"
-import type { Locale } from "@/app/page"
-import { HomeIcon } from "./ui/home"
-import { FolderOpenIcon } from "./ui/folder-open"
-import { BlocksIcon } from "./ui/blocks"
-import { GitBranchIcon } from "./ui/git-branch"
-import { UserIcon } from "./ui/user"
-import { MailCheckIcon } from "./ui/mail-check"
-import { EarthIcon } from "./ui/earth"
-import { LayoutPanelTopIcon } from "./ui/layout-panel-top"
-import { RocketIcon } from "./ui/rocket"
-import { AtomIcon } from "./ui/atom"
-import { ZapIcon } from "./ui/zap"
-import { WrenchIcon } from "./ui/wrench"
-import { AudioLinesIcon } from "./ui/audio-lines"
-import { WorkflowIcon } from "./ui/workflow"
-import { DollarSignIcon } from "./ui/dollar-sign"
-import { ChevronDownIcon } from "./ui/chevron-down"
-import { XIcon } from "./ui/x"
-import { MenuIcon } from "./ui/menu"
-import { SunIcon } from "./ui/sun"
-import { MoonIcon } from "./ui/moon"
+import { Bot, ChevronDown, Code2, FolderOpen, Globe, Home, Mail, Menu, Moon, Sun, User, Workflow, Wrench, X } from "lucide-react"
 import { useTheme } from "next-themes"
+import { pageHref, type Locale, type PageId } from "@/lib/site"
 import { cn } from "@/lib/utils"
 
-// 👉 Import dinámico del Logo 3D (SIN SSR)
 const Logo3D = dynamic(() => import("./Logo3D"), { ssr: false })
 
-export type SectionId =
-  | "inicio"
-  | "proyectos-sitios"
-  | "proyectos-apps"
-  | "proyectos-ai-tools"
-  | "proyectos-mvps"
-  | "proyectos-experimentos"
-  | "servicios-mvps"
-  | "servicios-automatizacion"
-  | "servicios-soporte"
-  | "proceso-metodologia"
-  | "proceso-precios"
-  | "sobre-mi"
-  | "contacto"
-
-interface NavItem {
-  id: SectionId | string
-  label: string
-  icon: React.ForwardRefExoticComponent<any>
-  iconSize: number
-  children?: { id: SectionId; label: string; icon: React.ForwardRefExoticComponent<any>; iconSize: number }[]
-}
-
-const getNavItems = (locale: Locale): NavItem[] => [
-  { id: "inicio", label: locale === "en" ? "Home" : "Inicio", icon: HomeIcon, iconSize: 16 },
-  {
-    id: "proyectos",
-    label: locale === "en" ? "Projects" : "Proyectos",
-    icon: FolderOpenIcon,
-    iconSize: 16,
-    children: [
-      { id: "proyectos-sitios", label: locale === "en" ? "Websites" : "Sitios web", icon: EarthIcon, iconSize: 14 },
-      { id: "proyectos-apps", label: locale === "en" ? "Web apps" : "Apps web", icon: LayoutPanelTopIcon, iconSize: 14 },
-      { id: "proyectos-ai-tools", label: locale === "en" ? "AI Tools" : "Herramientas IA", icon: AtomIcon, iconSize: 14 },
-      // { id: "proyectos-mvps", label: "MVPs", icon: RocketIcon, iconSize: 14 },
-      { id: "proyectos-experimentos", label: locale === "en" ? "Experiments" : "Experimentos", icon: RocketIcon, iconSize: 14 },
-    ],
-  },
-  {
-    id: "servicios",
-    label: locale === "en" ? "Services" : "Servicios",
-    icon: BlocksIcon,
-    iconSize: 16,
-    children: [
-      { id: "servicios-mvps", label: "MVPs", icon: ZapIcon, iconSize: 14 },
-      { id: "servicios-automatizacion", label: locale === "en" ? "Automation" : "Automatización", icon: WrenchIcon, iconSize: 14 },
-      { id: "servicios-soporte", label: locale === "en" ? "Support" : "Soporte", icon: AudioLinesIcon, iconSize: 14 },
-    ],
-  },
-  {
-    id: "proceso",
-    label: locale === "en" ? "Process" : "Proceso",
-    icon: GitBranchIcon,
-    iconSize: 16,
-    children: [
-      { id: "proceso-metodologia", label: locale === "en" ? "Methodology" : "Metodología", icon: WorkflowIcon, iconSize: 14 },
-      { id: "proceso-precios", label: locale === "en" ? "Pricing / Models" : "Precios / Modelos", icon: DollarSignIcon, iconSize: 14 },
-    ],
-  },
-  { id: "sobre-mi", label: locale === "en" ? "About me" : "Sobre mí", icon: UserIcon, iconSize: 16 },
-  { id: "contacto", label: locale === "en" ? "Contact" : "Contacto", icon: MailCheckIcon, iconSize: 16 },
-]
-interface SidebarNavProps {
-  activeSection: SectionId
-  onNavigate: (section: SectionId) => void
-  locale: Locale
-  onLocaleChange: (locale: Locale) => void
-}
-
-export function SidebarNav({ activeSection, onNavigate, locale, onLocaleChange }: SidebarNavProps) {
-  type AnimatedIconHandle = {
-    startAnimation?: () => void
-    stopAnimation?: () => void
-  }
-
-  const [expandedGroups, setExpandedGroups] = useState<string[]>([])
-  const [mobileOpen, setMobileOpen] = useState(false)
-  const navItems = getNavItems(locale)
-  const { theme, setTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
-  const iconRefs = useRef<Record<string, AnimatedIconHandle | null>>({})
-
-  // refs para el logo 3D
+function Brand({ locale, onNavigate }: { locale: Locale; onNavigate: () => void }) {
   const modelRef = useRef<HTMLElement | null>(null)
-  const modelContainerRef = useRef<HTMLDivElement | null>(null)
-  const modelReadyRef = useRef(false)
-
-  // rotación por scroll
-  const accumulated = useRef({ deg: 0 })
-  const targetDeg = useRef(0)
-
-  // zoom suave
-  const zoomTarget = useRef(1)
-  const zoomCurrent = useRef(1)
-  const zoomTimeout = useRef<any>(null)
-
   useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  useEffect(() => {
-    if (!mounted) return
-
-    const lastScroll = { y: window.scrollY || window.pageYOffset }
-    const sensitivity = 0.6
-
-    const onScrollDelta = (delta: number) => {
-      accumulated.current.deg += delta * sensitivity
-      targetDeg.current = accumulated.current.deg
-
-      zoomTarget.current = 2.10
-      if (zoomTimeout.current) clearTimeout(zoomTimeout.current)
-      zoomTimeout.current = setTimeout(() => {
-        zoomTarget.current = 1
-      }, 120)
+    let angle = 0
+    const onWheel = (event: WheelEvent) => {
+      angle = (angle + event.deltaY * 0.3) % 360
+      modelRef.current?.setAttribute("orientation", `${angle}deg 0deg 0deg`)
     }
-
-    const onScroll = () => {
-      const scrollY = window.scrollY || window.pageYOffset
-      const delta = scrollY - lastScroll.y
-      lastScroll.y = scrollY
-      onScrollDelta(delta)
-    }
-
-    const onWheel = (e: WheelEvent) => onScrollDelta(e.deltaY)
-
-    let lastTouchY: number | null = null
-    const onTouchMove = (e: TouchEvent) => {
-      if (e.touches && e.touches.length) {
-        const y = e.touches[0].clientY
-        if (lastTouchY !== null) onScrollDelta(lastTouchY - y)
-        lastTouchY = y
-      }
-    }
-
-    window.addEventListener("scroll", onScroll, { passive: true })
     window.addEventListener("wheel", onWheel, { passive: true })
-    window.addEventListener("touchmove", onTouchMove, { passive: true })
+    return () => window.removeEventListener("wheel", onWheel)
+  }, [])
+  return <Link href={pageHref("home", locale)} onClick={onNavigate} className="flex items-center gap-3 px-6 py-7"><div className="flex h-[72px] w-[72px] shrink-0 items-center justify-center"><Logo3D modelRef={modelRef} alt={locale === "en" ? "Iván Zavala 3D logo" : "Logotipo 3D de Iván Zavala"} /></div><span className="text-sm font-semibold tracking-tight">iván zavala</span></Link>
+}
 
-    let rafId: number
-    const tick = () => {
-      const mv: any = modelRef.current
-
-      if (mv && mv.setAttribute && mv.loaded) {
-        modelReadyRef.current = true
-
-        let az = Math.round(targetDeg.current) % 360
-        if (az < 0) az += 360
-
-        const elevation = 75
-        const baseRadius = 5.0
-        zoomCurrent.current += (zoomTarget.current - zoomCurrent.current) * 0.12
-        const radius = `${(baseRadius / zoomCurrent.current).toFixed(2)}m`
-
-        // Camara fija al centro; el modelo rota sobre su propio eje.
-        mv.setAttribute("camera-orbit", `0deg ${elevation}deg ${radius}`)
-        mv.setAttribute("orientation", `${az}deg 0deg 0deg`)
-      }
-
-      rafId = requestAnimationFrame(tick)
-    }
-
-    rafId = requestAnimationFrame(tick)
-
-    lastScroll.y = window.scrollY || window.pageYOffset
-
-    return () => {
-      window.removeEventListener("scroll", onScroll)
-      window.removeEventListener("wheel", onWheel)
-      window.removeEventListener("touchmove", onTouchMove)
-
-      if (zoomTimeout.current) {
-        clearTimeout(zoomTimeout.current)
-        zoomTimeout.current = null
-      }
-
-      cancelAnimationFrame(rafId)
-    }
-  }, [mounted])
-
-  const toggleGroup = (groupId: string) => {
-    setExpandedGroups((prev) =>
-      prev.includes(groupId) ? prev.filter((id) => id !== groupId) : [...prev, groupId]
-    )
-  }
-
-  const handleNavigate = (section: SectionId) => {
-    onNavigate(section)
-    setMobileOpen(false)
-  }
-
-  const setIconRef = (key: string, node: AnimatedIconHandle | null) => {
-    iconRefs.current[key] = node
-  }
-
-  const startIconAnimation = (key: string) => {
-    iconRefs.current[key]?.startAnimation?.()
-  }
-
-  const stopIconAnimation = (key: string) => {
-    iconRefs.current[key]?.stopAnimation?.()
-  }
-
-  const themeIconKey = "settings-theme"
-  const languageIconKey = "settings-language"
-
-  const isActive = (itemId: string, children?: { id: SectionId }[]) => {
-    if (children) return children.some((child) => child.id === activeSection)
-    return itemId === activeSection
-  }
-
-  const sidebarContent = (
-    <nav className="flex flex-col h-full" role="navigation" aria-label={locale === "en" ? "Main navigation" : "Navegación principal"}>
-      <div className="px-6 py-8">
-        <button onClick={() => handleNavigate("inicio")} className="flex items-center gap-3 group">
-          <div
-            ref={(el) => {modelContainerRef.current = el}}
-            style={{
-              width: 72,
-              height: 72,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              overflow: "visible",
-            }}
-          >
-            <Logo3D modelRef={modelRef} />
-          </div>
-
-          <span className="text-sm font-semibold text-foreground tracking-tight">
-            iván zavala
-          </span>
-        </button>
-      </div>
-
-      {/* resto del sidebar EXACTAMENTE igual */}
-      <div className="flex-1 px-3 overflow-y-auto">
-        <ul className="flex flex-col gap-0.5">
-          {navItems.map((item) => {
-            const hasChildren = !!item.children
-            const isExpanded = expandedGroups.includes(item.id)
-            const active = isActive(item.id, item.children)
-            const itemIconKey = `item-${item.id}`
-            const ItemIcon = item.icon
-
-            return (
-              <li key={item.id}>
-                <button
-                  onClick={() => (hasChildren ? toggleGroup(item.id) : handleNavigate(item.id as SectionId))}
-                  onMouseEnter={() => startIconAnimation(itemIconKey)}
-                  onMouseLeave={() => stopIconAnimation(itemIconKey)}
-                  onFocus={() => startIconAnimation(itemIconKey)}
-                  onBlur={() => stopIconAnimation(itemIconKey)}
-                  className={cn(
-                    "flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-sm transition-all duration-200",
-                    "hover:bg-accent/60",
-                    active && !hasChildren && "bg-accent text-foreground",
-                    active && hasChildren && "text-foreground",
-                    !active && "text-muted-foreground"
-                  )}
-                >
-                  <motion.span
-                    initial={false}
-                    animate={
-                      active
-                        ? { y: [0, -2, 0], scale: 1.08 }
-                        : { y: 0, scale: 1 }
-                    }
-                    whileHover={{ y: -1, scale: 1.12 }}
-                    transition={
-                      active
-                        ? { duration: 1.8, repeat: Infinity, ease: "easeInOut" }
-                        : { duration: 0.18, ease: [0.4, 0, 0.2, 1] }
-                    }
-                    className={cn("transition-colors duration-200", active ? "text-foreground" : "text-muted-foreground")}
-                  >
-                    <ItemIcon
-                      size={item.iconSize}
-                      ref={(node: AnimatedIconHandle | null) => setIconRef(itemIconKey, node)}
-                    />
-                  </motion.span>
-                  <span className="flex-1 text-left font-medium">{item.label}</span>
-                  {hasChildren && (
-                    <motion.span animate={{ rotate: isExpanded ? 180 : 0 }} transition={{ duration: 0.2 }}>
-                      <ChevronDownIcon size={14} />
-                    </motion.span>
-                  )}
-                </button>
-
-                <AnimatePresence initial={false}>
-                  {hasChildren && isExpanded && (
-                    <motion.ul
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
-                      className="overflow-hidden"
-                    >
-                      <div className="ml-4 border-l border-border pl-2 py-1">
-                        {item.children!.map((child) => {
-                          const childIconKey = `child-${child.id}`
-                          const ChildIcon = child.icon
-                          return <li key={child.id}>
-                            <button
-                              onClick={() => handleNavigate(child.id)}
-                              onMouseEnter={() => startIconAnimation(childIconKey)}
-                              onMouseLeave={() => stopIconAnimation(childIconKey)}
-                              onFocus={() => startIconAnimation(childIconKey)}
-                              onBlur={() => stopIconAnimation(childIconKey)}
-                              className={cn(
-                                "flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-[13px] transition-all duration-200",
-                                "hover:bg-accent/60",
-                                activeSection === child.id
-                                  ? "bg-accent text-foreground"
-                                  : "text-muted-foreground"
-                              )}
-                            >
-                              <span className={cn("transition-colors duration-200", activeSection === child.id ? "text-foreground" : "text-muted-foreground")}>
-                                <ChildIcon
-                                  size={child.iconSize}
-                                  ref={(node: AnimatedIconHandle | null) => setIconRef(childIconKey, node)}
-                                />
-                              </span>
-                              <span>{child.label}</span>
-                            </button>
-                          </li>
-                        })}
-                      </div>
-                    </motion.ul>
-                  )}
-                </AnimatePresence>
-              </li>
-            )
-          })}
-        </ul>
-      </div>
-
-      <div className="px-4 py-5 border-t border-border flex flex-col gap-4">
-        {mounted && (
-          <button
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            onMouseEnter={() => startIconAnimation(themeIconKey)}
-            onMouseLeave={() => stopIconAnimation(themeIconKey)}
-            onFocus={() => startIconAnimation(themeIconKey)}
-            onBlur={() => stopIconAnimation(themeIconKey)}
-            className="flex items-center gap-3 w-full rounded-md px-3 py-2.5 text-sm text-muted-foreground hover:bg-accent/60 hover:text-foreground transition-all duration-200"
-          >
-            <div
-              key={theme}
-            >
-              {theme === "dark" ? (
-                <SunIcon size={16} ref={(node: AnimatedIconHandle | null) => setIconRef(themeIconKey, node)} />
-              ) : (
-                <MoonIcon size={16} ref={(node: AnimatedIconHandle | null) => setIconRef(themeIconKey, node)} />
-              )}
-            </div>
-            <span className="font-medium">
-              {theme === "dark" ? (locale === "en" ? "Light mode" : "Modo claro") : (locale === "en" ? "Dark mode" : "Modo oscuro")}
-            </span>
-          </button>
-        )}
-
-        <button
-          onClick={() => onLocaleChange(locale === "es" ? "en" : "es")}
-          onMouseEnter={() => startIconAnimation(languageIconKey)}
-          onMouseLeave={() => stopIconAnimation(languageIconKey)}
-          onFocus={() => startIconAnimation(languageIconKey)}
-          onBlur={() => stopIconAnimation(languageIconKey)}
-          className="flex items-center gap-3 w-full rounded-md px-3 py-2.5 text-sm text-muted-foreground hover:bg-accent/60 hover:text-foreground transition-all duration-200"
-          aria-label={locale === "en" ? "Change language" : "Cambiar idioma"}
-        >
-          <EarthIcon size={16} ref={(node: AnimatedIconHandle | null) => setIconRef(languageIconKey, node)} />
-          <span className="font-medium">
-            {locale === "en" ? "Language: English" : "Idioma: Español"}
-          </span>
-        </button>
-
-        <p className="text-xs text-muted-foreground font-mono px-3">
-          {locale === "en" ? "< building products />" : "< construyendo productos />"}
-        </p>
-      </div>
-    </nav>
-  )
-
-  return (
-    <>
-      <button
-        onClick={() => setMobileOpen(true)}
-        className="fixed top-4 left-4 z-50 lg:hidden bg-card border border-border rounded-md p-2 text-foreground"
-      >
-        <MenuIcon size={20} />
-      </button>
-
-      <AnimatePresence>
-        {mobileOpen && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 lg:hidden"
-              onClick={() => setMobileOpen(false)}
-            />
-            <motion.aside
-              initial={{ x: -280 }}
-              animate={{ x: 0 }}
-              exit={{ x: -280 }}
-              transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-              className="fixed top-0 left-0 bottom-0 w-[260px] bg-sidebar-background border-r border-sidebar-border z-50 lg:hidden"
-            >
-              <button
-                onClick={() => setMobileOpen(false)}
-                className="absolute top-4 right-4 text-muted-foreground hover:text-foreground"
-              >
-                 <XIcon size={20} />
-              </button>
-              {sidebarContent}
-            </motion.aside>
-          </>
-        )}
-      </AnimatePresence>
-
-      <aside className="hidden lg:flex lg:flex-col lg:w-[260px] lg:min-w-[260px] h-screen bg-sidebar-background border-r border-sidebar-border sticky top-0">
-        {sidebarContent}
-      </aside>
-    </>
-  )
+export function SidebarNav({ activePage, locale }: { activePage: PageId; locale: Locale }) {
+  const [expanded, setExpanded] = useState(["services", "process"])
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
+  const dialogRef = useRef<HTMLDialogElement>(null)
+  const { resolvedTheme, setTheme } = useTheme()
+  const en = locale === "en"
+  const closeMenu = () => setMobileOpen(false)
+  useEffect(() => setMounted(true), [])
+  useEffect(() => {
+    const dialog = dialogRef.current
+    if (!dialog || !mobileOpen) return
+    dialog.showModal()
+    const previous = document.body.style.overflow
+    document.body.style.overflow = "hidden"
+    return () => { dialog.close(); document.body.style.overflow = previous }
+  }, [mobileOpen])
+  const link = (id: PageId, label: string, Icon: typeof Home, child = false) => <Link key={id} href={pageHref(id, locale)} onClick={closeMenu} aria-current={activePage === id ? "page" : undefined} className={cn("flex items-center gap-3 rounded-md px-3 py-2.5 transition-colors hover:bg-accent/60", child ? "text-[13px]" : "text-sm", activePage === id ? "bg-accent text-foreground" : "text-muted-foreground")}><Icon aria-hidden="true" className={child ? "h-3.5 w-3.5 shrink-0" : "h-4 w-4 shrink-0"} /><span className="font-medium">{label}</span></Link>
+  const toggle = (id: string) => setExpanded(previous => previous.includes(id) ? previous.filter(value => value !== id) : [...previous, id])
+  const content = <nav className="flex h-full flex-col" aria-label={en ? "Main navigation" : "Navegación principal"}>
+    <Brand locale={locale} onNavigate={closeMenu} />
+    <div className="flex-1 overflow-y-auto px-3">
+      {link("home", en ? "Home" : "Inicio", Home)}
+      <button type="button" onClick={() => toggle("services")} aria-expanded={expanded.includes("services")} className="flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-sm hover:bg-accent/60"><Workflow aria-hidden="true" className="h-4 w-4" /><span className="flex-1 text-left font-medium">{en ? "Services" : "Servicios"}</span><ChevronDown aria-hidden="true" className={cn("h-3.5 w-3.5 transition-transform", expanded.includes("services") && "rotate-180")} /></button>
+      {expanded.includes("services") && <div className="ml-4 border-l border-border pl-2">{link("automation", en ? "Automation" : "Automatización", Workflow, true)}{link("ai", en ? "AI agents" : "Agentes de IA", Bot, true)}{link("software", en ? "Custom software" : "Software a medida", Code2, true)}{link("support", en ? "Maintenance" : "Mantenimiento", Wrench, true)}</div>}
+      {link("projects", en ? "Projects" : "Proyectos", FolderOpen)}
+      <button type="button" onClick={() => toggle("process")} aria-expanded={expanded.includes("process")} className="flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-sm hover:bg-accent/60"><Workflow aria-hidden="true" className="h-4 w-4" /><span className="flex-1 text-left font-medium">{en ? "Working together" : "Cómo trabajamos"}</span><ChevronDown aria-hidden="true" className={cn("h-3.5 w-3.5 transition-transform", expanded.includes("process") && "rotate-180")} /></button>
+      {expanded.includes("process") && <div className="ml-4 border-l border-border pl-2">{link("methodology", en ? "Process" : "Proceso", Workflow, true)}{link("engagement", en ? "Scope and pricing" : "Alcance y contratación", Code2, true)}</div>}
+      {link("about", en ? "About me" : "Sobre mí", User)}
+      {link("contact", en ? "Contact" : "Contacto", Mail)}
+    </div>
+    <div className="mt-4 flex flex-col gap-1 border-t border-border px-4 py-4">
+      <button type="button" onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")} className="flex items-center gap-3 rounded-md px-3 py-2.5 text-sm text-muted-foreground hover:bg-accent/60 hover:text-foreground">{mounted && resolvedTheme === "light" ? <Moon aria-hidden="true" className="h-4 w-4" /> : <Sun aria-hidden="true" className="h-4 w-4" />}<span>{mounted ? resolvedTheme === "dark" ? (en ? "Light mode" : "Modo claro") : (en ? "Dark mode" : "Modo oscuro") : (en ? "Theme" : "Tema")}</span></button>
+      <Link href={pageHref(activePage, en ? "es" : "en")} hrefLang={en ? "es" : "en"} onClick={closeMenu} aria-label={en ? "Cambiar a español" : "Switch to English"} className="flex items-center gap-3 rounded-md px-3 py-2.5 text-sm text-muted-foreground hover:bg-accent/60 hover:text-foreground"><Globe aria-hidden="true" className="h-4 w-4" /><span>{en ? "Español" : "English"}</span></Link>
+      <p className="px-3 pt-2 text-xs font-mono text-muted-foreground">Software · {en ? "AI · Automation" : "IA · Automatización"}</p>
+    </div>
+  </nav>
+  return <>
+    <button type="button" onClick={() => setMobileOpen(true)} aria-label={en ? "Open menu" : "Abrir menú"} aria-haspopup="dialog" className="fixed top-4 left-4 z-30 rounded-md border border-border bg-card p-2 lg:hidden"><Menu aria-hidden="true" className="h-5 w-5" /></button>
+    <dialog ref={dialogRef} onCancel={event => { event.preventDefault(); closeMenu() }} onClick={event => { if (event.target === event.currentTarget) closeMenu() }} aria-label={en ? "Navigation menu" : "Menú de navegación"} className="fixed inset-y-0 left-0 m-0 h-dvh max-h-none w-[260px] max-w-[85vw] border-r border-border bg-sidebar-background p-0 text-foreground backdrop:bg-black/70"><button type="button" onClick={closeMenu} aria-label={en ? "Close menu" : "Cerrar menú"} className="absolute top-3 right-3 rounded-md p-2 text-muted-foreground hover:text-foreground"><X aria-hidden="true" className="h-4 w-4" /></button>{mobileOpen && content}</dialog>
+    <aside className="sticky top-0 hidden h-screen w-[260px] min-w-[260px] flex-col border-r border-sidebar-border bg-sidebar-background lg:flex">{content}</aside>
+  </>
 }
 
 

@@ -4,14 +4,10 @@ import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ExternalLink, Github, Hand } from "lucide-react"
 import { QRCodeSVG } from "qrcode.react"
-import type { Locale } from "@/app/page"
-import { EarthIcon } from "@/components/ui/earth"
+import type { Locale } from "@/lib/site"
 import { LayoutPanelTopIcon } from "@/components/ui/layout-panel-top"
-import { RocketIcon } from "@/components/ui/rocket"
-import { AtomIcon } from "@/components/ui/atom"
 
 const fadeUp = {
-  initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
 }
 
@@ -24,13 +20,6 @@ interface Project {
   status: string
   preview?: string
   embedUrl?: string
-}
-
-interface ProjectsSectionData {
-  title: string
-  description: string
-  icon: React.ReactNode
-  projects: Project[]
 }
 
 const CODEPEN_BASE = "https://codepen.io/Ivan-Zavala/pen/"
@@ -122,115 +111,659 @@ const experimentsEn: Project[] = [
   { name: "Collection finale", description: "Final experiment in the set with a synthesis of visual and technical resources.", tech: ["JavaScript", "CSS", "CodePen"], status: "CodePen", link: cp("bNeyRjX"), embedUrl: cpe("bNeyRjX") },
 ]
 
-const projectsData: Record<Locale, Record<string, ProjectsSectionData>> = {
-  es: {
+const projectsData: Record<Locale, Record<string, { title: string; description: string; projects: Project[] }>> = {
+  "es": {
+"proyectos-experimentos": {
+  "title": "Experimentos de interfaz y movimiento",
+  "description": "Exploraciones de animación, interacción y diseño realizadas en CodePen.",
+  "projects": experimentsEs
+},
     "proyectos-sitios": {
-      title: "Sitios Web",
-      description: "Sitios web corporativos y de presentación, optimizados para SEO y rendimiento.",
-      icon: <EarthIcon size={20} />,
-      projects: [
-        { name: "Exploración visual de arquitectura con stack moderno (Next.js + React)", description: "Proyecto personal orientado a exploración visual de arquitectura y fotografía arquitectónica, implementado con React y Next.js utilizando generación de sitios estáticos (SSG) para optimizar performance y tiempos de carga. La interfaz se construyó con Tailwind CSS y componentes de shadcn/ui sobre Radix UI, priorizando composición visual, jerarquía tipográfica y layout responsive. Se integró analítica con GA4, optimización de carga de fuentes vía Google Font API, y se configuró despliegue en SiteGround con Nginx como proxy reverso. El pipeline de desarrollo utiliza Turbopack y Priority Hints para mejorar la priorización de recursos críticos en el render inicial. El proyecto funciona como sandbox para probar arquitectura de frontend, performance en SSG y patrones de UI reutilizables para futuros proyectos productivos.", tech: ["Next.js", "React", "SSG", "Tailwind CSS", "shadcn/ui", "Radix UI", "Performance", "Nginx", "GA4"], status: "Demo", link: "https://ivanz88.sg-host.com/", preview: "https://i.imgur.com/ZSqN1vt.gif" },
-        { name: "Sistema web para agencia de marketing con frontend moderno y backend serverless", description: "Proyecto demo de sitio corporativo para agencia de marketing, implementado con React y Next.js (SSG/SSR híbrido) con arquitectura de frontend orientada a performance y escalabilidad. Se integró Supabase como backend ligero para manejo de datos, autenticación básica y futuras extensiones de formularios/lead management. La UI se construyó con Tailwind CSS y componentes de shadcn/ui sobre Radix UI, priorizando consistencia visual, accesibilidad y reutilización de componentes. Se optimizó el render inicial con Priority Hints y se configuró pipeline de desarrollo con Turbopack. El proyecto incluye instrumentación de eventos para redes de publicidad (DoubleClick Floodlight) y utilidades de frontend con Lodash para manejo de estado y transformación de datos.", tech: ["Next.js", "React", "Supabase", "PostgreSQL", "Tailwind CSS", "shadcn/ui", "Radix UI", "SSG/SSR", "Performance", "Turbopack", "Ads Tracking"], status: "Demo", link: "https://marketing-web-template.vercel.app/", preview: "https://youtu.be/Qn7HhzGG5Vc" },
-        { name: "Sistema de motion y layout dinámico para estudio creativo (Next.js)", description: "Proyecto demo para explorar motion design y narrativa visual en un sitio para despacho de interiorismo, implementado con React y Next.js (SSG). Se integraron animaciones con GSAP para control de timelines y transiciones entre secciones, y Lenis para scroll suave con sincronización de animaciones. El layout se construyó con flujos no lineales y componentes modulares, reutilizando patrones previos dentro del ecosistema de Next.js. Se priorizó performance en el render inicial mediante Priority Hints, carga progresiva de assets y control de ejecución de animaciones en móviles, funcionando como laboratorio de UI/motion para prototipar interacciones reutilizables en proyectos productivos.", tech: ["Next.js", "React", "GSAP", "Lenis", "Motion Design", "SSG", "Performance", "Nginx", "GA4"], status: "Demo", link: "https://ivanz89.sg-host.com/", preview: "https://youtu.be/-2bu2h-BvPo" },
-        { name: "Galería minimalista para fotografía arquitectónica con scroll cinemático (GSAP)", description: "Proyecto demo enfocado en una galería visual minimalista para presentar imágenes de gran formato y alto impacto visual. Implementado en HTML, CSS y JavaScript con scroll suave mediante Lenis y animaciones controladas con GSAP para reforzar la transición entre escenas sin sobrecargar la interfaz. Se priorizó una composición limpia, tipografía contenida y jerarquía visual enfocada en el contenido, con optimización de carga de imágenes y distribución de assets vía CDN (Cloudflare / jsDelivr / unpkg). Se integró GA4 para instrumentar navegación básica dentro de la experiencia visual.", tech: ["HTML", "CSS", "JavaScript", "GSAP", "Lenis", "Minimal UI", "Image Gallery", "CDN", "GA4", "Performance"], status: "Demo", link: "https://ivanz90.sg-host.com/", preview: "https://youtu.be/8C29lbWuEvw" },
-        { name: "Arquitectura de motion UI para sitio de estudio de interiorismo", description: "Proyecto demo para un estudio de arquitectura, implementado con React y Next.js (SSG), con enfoque en microanimaciones y motion UI para enriquecer la experiencia sin saturar la interfaz. Las transiciones y estados de componentes se resolvieron con Framer Motion, y el scroll suave con Lenis para sincronizar animaciones con la navegación. La UI se construyó con Tailwind CSS y componentes de shadcn/ui sobre Radix UI, priorizando accesibilidad, composición modular y consistencia visual. Se optimizó el render inicial con Priority Hints, se integró GA4 para analítica de interacción y se desplegó bajo Nginx como proxy reverso en SiteGround, cuidando performance y estabilidad en producción.", tech: ["Next.js", "React", "Framer Motion", "Lenis", "Tailwind CSS", "shadcn/ui", "Radix UI", "SSG", "Performance", "GA4", "Nginx"], status: "Demo", link: "https://ivanz90.sg-host.com/", preview: "https://youtu.be/PZfKFIgPr1w" },
-        { name: "Bienes Raíces - Integración personalizada de EasyBroker en WordPress", description: "Se desarrolló un sitio web inmobiliario en WordPress utilizando su CMS para la gestión de contenido por parte del cliente. Debido a que EasyBroker no expone una API pública oficial, se implementó una integración personalizada mediante un plugin propio que consume, normaliza y mapea los datos de propiedades hacia estructuras internas de WordPress (custom post types y meta fields). La sincronización del catálogo se resolvió mediante procesos automatizados con control de caché y actualización periódica para evitar impactos de performance. El frontend se montó sobre una plantilla seleccionada por el cliente, adaptada a su branding, con renderizado de listados, fichas de propiedad y filtros, manteniendo una arquitectura escalable para futuras extensiones.", tech: ["WordPress", "Plugin Development", "API Integration", "Custom Post Types", "Data Mapping", "Performance"], status: "Live", link: "https://negocianterealestate.com/", preview: "https://youtu.be/hjv3JFzTsJE" },
-        { name: "Landing page estática para marca gastronómica", description: "Se desarrolló un sitio web estático utilizando HTML, CSS y JavaScript puro, sin frameworks, priorizando control total del layout y bajo overhead en el frontend. El requerimiento principal fue traducir la identidad visual del restaurante —oscura, elegante y de carácter masculino— a una experiencia web basada en composición visual, fotografía de alto contraste y jerarquía tipográfica. El sitio se estructuró como una landing page informativa orientada a branding y presentación del concepto. Se integró OpenTable para el flujo de reservaciones directamente desde el sitio, manteniendo la experiencia del usuario dentro del ecosistema del restaurante. Adicionalmente, se desarrolló un popup de anuncios en la carga inicial para comunicar promociones y eventos temporales, se optimizó el peso de imágenes, estructura responsive y compatibilidad cross-browser, manteniendo el diseño consistente en distintos dispositivos sin dependencias externas.", tech: ["HTML", "CSS", "JavaScript", "Static Site", "OpenTable Integration", "UI Branding", "Performance"], status: "Live", link: "https://cienfuegos.mx/", preview: "https://youtu.be/tvaE6EzjBPI" },
-        { name: "Experimento de UI animada para marca gastronómica", description: "Se desarrolló una landing page interactiva en HTML, CSS y JavaScript con enfoque en motion y microinteracciones para evitar una experiencia estática. Las animaciones se implementaron con GSAP para control de timelines y estados de UI, y la navegación de galerías y carruseles con Swiper. La interfaz se construyó de forma modular mediante templates en el frontend para reutilizar componentes animados. Se integró analítica con GA4 vía Google Tag Manager y se priorizó performance mediante lazy loading de media, optimización de assets y control de ejecución de animaciones en dispositivos móviles. Las imágenes del demo fueron generadas con IA como placeholders para validar narrativa visual antes de producción final.", tech: ["HTML", "CSS", "JavaScript", "GSAP", "Microinteractions", "Swiper.js", "lit-html", "GA4", "Tag Manager", "Performance"], status: "Demo", link: "https://ivanz31.sg-host.com/", preview: "https://youtu.be/o9kQovpPLWI" },
-        { name: "Sistema de galería con scroll libre en dos ejes", description: "Se desarrolló una galería visual interactiva en HTML, CSS y JavaScript con navegación libre en ambos ejes (horizontal y vertical), permitiendo explorar el contenido mediante scroll continuo en múltiples direcciones. La experiencia se apoya en animaciones y control de estado con GSAP para manejar transiciones, inercia de movimiento y feedback visual durante la navegación. La arquitectura del frontend prioriza control de performance y fluidez en la manipulación del viewport, con carga optimizada de imágenes y control de eventos de scroll para evitar jank en dispositivos de bajo rendimiento. Se integró analítica con GA4 para instrumentar interacción del usuario dentro del canvas visual, y se desplegó bajo Nginx con CDN (jsDelivr) para distribución eficiente de assets estáticos.", tech: ["HTML", "CSS", "JavaScript", "GSAP", "Interactive Gallery", "2D Scrolling", "Performance", "GA4", "Nginx", "CDN"], status: "Demo", link: "https://ivanz87.sg-host.com/", preview: "https://youtu.be/6d3KezAIlL0" },
-      ],
+      "title": "Diseño y desarrollo de sitios web",
+      "description": "Una selección de sitios, herramientas y demostraciones que muestran distintas formas de resolver necesidades con tecnología.",
+      "projects": [
+        {
+          "name": "Sitio de arquitectura",
+          "description": "Exploración visual de proyectos arquitectónicos con una interfaz centrada en imágenes y navegación.",
+          "tech": [
+            "Next.js",
+            "React",
+            "SSG",
+            "Tailwind CSS",
+            "shadcn/ui",
+            "Radix UI"
+          ],
+          "status": "Demostración",
+          "link": "https://ivanz88.sg-host.com/",
+          "preview": "https://i.imgur.com/ZSqN1vt.gif"
+        },
+        {
+          "name": "Sitio para agencia de marketing",
+          "description": "Demostración de un sitio para presentar servicios, proyectos y una propuesta comercial.",
+          "tech": [
+            "Next.js",
+            "React",
+            "Supabase",
+            "PostgreSQL",
+            "Tailwind CSS",
+            "shadcn/ui"
+          ],
+          "status": "Demostración",
+          "link": "https://marketing-web-template.vercel.app/",
+          "preview": "https://youtu.be/Qn7HhzGG5Vc"
+        },
+        {
+          "name": "Sitio para estudio creativo",
+          "description": "Una experiencia web que combina composición visual y movimiento para presentar el trabajo del estudio.",
+          "tech": [
+            "Next.js",
+            "React",
+            "GSAP",
+            "Lenis",
+            "Motion Design",
+            "SSG"
+          ],
+          "status": "Demostración",
+          "link": "https://ivanz89.sg-host.com/",
+          "preview": "https://youtu.be/-2bu2h-BvPo"
+        },
+        {
+          "name": "Galería de fotografía arquitectónica",
+          "description": "Una galería minimalista para recorrer imágenes con una experiencia de desplazamiento cuidada.",
+          "tech": [
+            "HTML",
+            "CSS",
+            "JavaScript",
+            "GSAP",
+            "Lenis",
+            "Minimal UI"
+          ],
+          "status": "Demostración",
+          "link": "https://ivanz90.sg-host.com/",
+          "preview": "https://youtu.be/8C29lbWuEvw"
+        },
+        {
+          "name": "Sitio de interiorismo",
+          "description": "Demostración de una interfaz para presentar proyectos de interiorismo y contenido visual.",
+          "tech": [
+            "Next.js",
+            "React",
+            "Framer Motion",
+            "Lenis",
+            "Tailwind CSS",
+            "shadcn/ui"
+          ],
+          "status": "Demostración",
+          "link": "https://ivanz90.sg-host.com/",
+          "preview": "https://youtu.be/PZfKFIgPr1w"
+        },
+        {
+          "name": "Sitio inmobiliario con EasyBroker",
+          "description": "Integración de propiedades de EasyBroker en un sitio de WordPress para consultar el catálogo inmobiliario.",
+          "tech": [
+            "WordPress",
+            "Plugin Development",
+            "API Integration",
+            "Custom Post Types",
+            "Data Mapping"
+          ],
+          "status": "Publicado",
+          "link": "https://negocianterealestate.com/",
+          "preview": "https://youtu.be/hjv3JFzTsJE"
+        },
+        {
+          "name": "Sitio para marca gastronómica",
+          "description": "Una página para presentar la propuesta gastronómica, información del negocio y opciones de contacto.",
+          "tech": [
+            "HTML",
+            "CSS",
+            "JavaScript",
+            "Static Site",
+            "OpenTable Integration",
+            "UI Branding"
+          ],
+          "status": "Publicado",
+          "link": "https://cienfuegos.mx/",
+          "preview": "https://youtu.be/tvaE6EzjBPI"
+        },
+        {
+          "name": "Experimento para marca gastronómica",
+          "description": "Demostración de diseño y movimiento para explorar la presentación visual de una marca.",
+          "tech": [
+            "HTML",
+            "CSS",
+            "JavaScript",
+            "GSAP",
+            "Microinteractions",
+            "Swiper.js"
+          ],
+          "status": "Demostración",
+          "link": "https://ivanz31.sg-host.com/",
+          "preview": "https://youtu.be/o9kQovpPLWI"
+        },
+        {
+          "name": "Galería con navegación libre",
+          "description": "Una exploración de galería visual con desplazamiento en dos direcciones.",
+          "tech": [
+            "HTML",
+            "CSS",
+            "JavaScript",
+            "GSAP",
+            "Interactive Gallery",
+            "2D Scrolling"
+          ],
+          "status": "Demostración",
+          "link": "https://ivanz87.sg-host.com/",
+          "preview": "https://youtu.be/6d3KezAIlL0"
+        }
+      ]
     },
     "proyectos-apps": {
-      title: "Apps Web",
-      description: "Aplicaciones web completas, listas para producción.",
-      icon: <LayoutPanelTopIcon size={20} />,
-      projects: [
-        { name: "Sistema de reporting automatizado con dashboards por cliente", description: "Web app orientada a automatizar la entrega de reportes mensuales para clientes de SEO y posicionamiento, reemplazando presentaciones manuales por un portal self-serve. La arquitectura permite definir métricas personalizadas por usuario/cliente y renderizar dashboards dedicados con sus KPIs, histórico y comparativos, manteniendo separación lógica de datos por cuenta. El frontend se implementó con React y Next.js, con UI componible para configurar widgets/métricas y vistas de reportes. Se integraron visualizaciones con Recharts para gráficas y tarjetas de rendimiento, priorizando claridad de lectura y consistencia visual. La app se optimizó con Priority Hints y pipeline con Turbopack, y se desplegó en Vercel con HSTS y Vercel Analytics para instrumentar uso (vistas de reportes, interacción con métricas y engagement por cliente).", tech: ["Next.js", "React", "B2B SaaS", "Client Portals", "Dashboards", "Recharts", "Metrics", "Vercel", "Analytics", "Performance", "HSTS"], status: "Demo", link: "https://v0-panel-de-reportes-de-usuario.vercel.app/", preview: "https://youtu.be/HgNfUpvru54" },
-        { name: "Sistema de e-commerce con enfoque en experiencia visual para marca de belleza", description: "E-commerce demo para marca de productos de belleza, implementado con React y Next.js (SSG), con arquitectura orientada a performance y experiencia visual de alta calidad. La interfaz prioriza composición tipográfica, fotografía de gran formato y microinteracciones sutiles para reforzar percepción de marca premium. Se integraron secciones con video ligero y animaciones discretas para enriquecer la narrativa sin comprometer tiempos de carga. La UI se construyó con Tailwind CSS y shadcn/ui sobre Radix UI, asegurando consistencia, accesibilidad y reutilización de componentes. Se optimizó el render inicial mediante Priority Hints y carga progresiva de media, con despliegue en Vercel bajo políticas de seguridad (HSTS) y analítica vía Vercel Analytics para instrumentar eventos clave de navegación y conversión.", tech: ["Next.js", "React", "E-commerce", "Visual UX", "Microinteractions", "Tailwind CSS", "shadcn/ui", "Radix UI", "Vercel", "Performance", "Analytics"], status: "Demo", link: "https://beauty-ecommerce-web.vercel.app/", preview: "https://youtu.be/FwdRnqpphYA" },
-        { name: "Arquitectura de gestor financiero conversacional con IA", description: "Web app de finanzas personales implementada con React y Next.js, diseñada bajo un paradigma de interacción conversacional como capa principal de entrada de datos. La aplicación integra un motor de IA (ChatGPT) para interpretar lenguaje natural y convertir mensajes del usuario en transacciones estructuradas (ingresos, gastos, categorías, montos y fechas). Además del módulo conversacional, el sistema incluye dashboards financieros con métricas en tiempo real, categorización de gastos, visualización de estadísticas y módulo de proyecciones y metas de ahorro. La arquitectura separa la capa de UI, la lógica de procesamiento conversacional y el modelado de datos financieros para permitir escalabilidad futura (automatización, recomendaciones inteligentes, alertas predictivas). Se optimizó performance con Priority Hints y se desplegó en Vercel bajo políticas de seguridad (HSTS), priorizando fluidez en la experiencia conversacional y actualización reactiva de métricas tras cada interacción.", tech: ["Next.js", "React", "AI Integration", "Conversational UI", "Finance App", "Dashboards", "Data Modeling", "Vercel", "HSTS", "Performance"], status: "Demo", link: "https://v0-portal-financiero-conversacional.vercel.app/", preview: "https://youtu.be/HgNfUpvru54" },
-        { name: "Sistema de e-commerce interactivo para marca de moda", description: "Proyecto demo de e-commerce para marca de moda, implementado con React y Next.js (SSG), con arquitectura de frontend orientada a performance y motion UI. La experiencia integra animaciones complejas con GSAP para transiciones de secciones, estados de componentes y narrativa visual, y Lenis para scroll suave sincronizado con animaciones. Se implementó flujo de catálogo, galería de producto y carrito de compra en frontend, con composición modular de componentes reutilizables. Se optimizó el render inicial mediante Priority Hints, carga progresiva de media y control de ejecución de animaciones en dispositivos móviles.", tech: ["Next.js", "React", "E-commerce", "GSAP", "Lenis", "Motion Design", "SSG", "Performance", "GA4", "Nginx"], status: "Demo", link: "https://ivanz92.sg-host.com/", preview: "https://youtu.be/HnEAPewnPX0" },
-        { name: "Web app todo en uno para gestión de barberías/estéticas", description: "Web app demo de gestión integral para barberías y estéticas, implementada con React y Next.js como frontend principal, orientada a centralizar agendamiento, POS, CRM e inventario en una sola interfaz. La arquitectura prioriza flujos de reserva rápidos y de baja fricción para usuarios sin perfil técnico, con navegación clara y componentes reutilizables. La UI se construyó con Tailwind CSS y shadcn/ui sobre Radix UI, priorizando accesibilidad, consistencia visual y escalabilidad del sistema de componentes. Se optimizó el rendimiento con Priority Hints y pipeline de desarrollo con Turbopack. El despliegue se realizó en Vercel con políticas de seguridad (HSTS) y analítica vía Vercel Analytics para instrumentar flujos de conversión dentro de la app.", tech: ["Next.js", "React", "Web App", "Booking System", "POS", "CRM", "Tailwind CSS", "shadcn/ui", "Radix UI", "Vercel", "Performance", "Security"], status: "Demo", link: "https://barber-shop-full-system.vercel.app/", preview: "https://youtu.be/PflAV4jWCtI" },
-        { name: "Arquitectura de plataforma educativa con roles y flujos multiperfil", description: "Web app demo de academia digital implementada con React y Next.js, con arquitectura de frontend orientada a manejar flujos diferenciados por rol (alumno, docente y administrador) dentro de una misma base de componentes. Se diseñaron dashboards con estados de progreso, cursos activos, tareas y clases en vivo, priorizando claridad de información y baja fricción de uso para perfiles no técnicos. La UI se construyó con Tailwind CSS y shadcn/ui sobre Radix UI para mantener consistencia visual y accesibilidad en múltiples vistas. El despliegue se realizó en Vercel con HSTS y analítica vía Vercel Analytics para instrumentar navegación entre módulos y eventos clave dentro de la plataforma. La arquitectura está preparada para escalar a integraciones de backend (auth, pagos, contenidos) sin reestructurar el frontend.", tech: ["Next.js", "React", "Web App", "Role-based UI", "Dashboards", "Tailwind CSS", "shadcn/ui", "Radix UI", "Vercel", "HSTS", "Analytics"], status: "Demo", link: "https://marketing-digital-academia.vercel.app/", preview: "https://youtu.be/QWK92JBAACg" },
-        { name: "Sistema de gestión de membresías para negocios de fitness con multiusuarios", description: "Web app demo para gestión de membresías en negocios de fitness/health, implementada con React y Next.js, con arquitectura orientada a multi-tenant para permitir múltiples negocios y usuarios dentro de la misma base de aplicación. Se diseñaron flujos de administración de miembros, afiliaciones y visualización de métricas, priorizando claridad de uso para perfiles no técnicos. La UI se construyó con Tailwind CSS y shadcn/ui sobre Radix UI, con componentes reutilizables para paneles administrativos y vistas de usuario. Se integraron visualizaciones con Recharts para métricas básicas, se optimizó el render inicial con Priority Hints y se desplegó en Vercel con HSTS, manteniendo un pipeline de desarrollo con Turbopack orientado a iteración rápida.", tech: ["Next.js", "React", "Web App", "Multi-tenant", "Membership System", "Dashboards", "Recharts", "Tailwind CSS", "shadcn/ui", "Radix UI", "Vercel", "HSTS", "Performance"], status: "Demo", link: "https://membership-system-fitness.vercel.app/", preview: "https://youtu.be/x8HUsnPW0_k" },
-        { name: "Plataforma de loyalty con niveles VIP y cupones para negocios físicos", description: "Web app demo de fidelización para clientes recurrentes en negocios físicos, implementada con React y Next.js, orientada a registrar visitas mediante QR y habilitar flujos de recompensas, cupones e historial de consumo. La arquitectura prioriza flujos de interacción rápidos en mobile, con estados claros de progreso y validación visual del escaneo. Se diseñó un sistema de gamificación con niveles VIP, progresión por visitas y desbloqueo de incentivos, modelado en componentes reutilizables dentro del frontend. La UI se construyó con Tailwind CSS y shadcn/ui sobre Radix UI, priorizando accesibilidad y consistencia visual. Se optimizó performance con Priority Hints y se desplegó en Vercel con HSTS y Vercel Analytics para instrumentar eventos de uso (escaneos, canjes, progreso de nivel).", tech: ["Next.js", "React", "Web App", "Multi-tenant", "Membership System", "Dashboards", "Recharts", "Tailwind CSS", "shadcn/ui", "Radix UI", "Vercel", "HSTS", "Performance"], status: "Demo", link: "https://app-fidelidad-barberia.vercel.app/", preview: "https://youtu.be/mrQORiHabVs" },
-      ],
+      "title": "Aplicaciones web: demostraciones",
+      "description": "Una selección de sitios, herramientas y demostraciones que muestran distintas formas de resolver necesidades con tecnología.",
+      "projects": [
+        {
+          "name": "Panel de reportes por cliente",
+          "description": "Demostración de un panel que organiza reportes y datos por cliente para facilitar su consulta.",
+          "tech": [
+            "Next.js",
+            "React",
+            "B2B SaaS",
+            "Client Portals",
+            "Dashboards",
+            "Recharts"
+          ],
+          "status": "Demostración",
+          "link": "https://v0-panel-de-reportes-de-usuario.vercel.app/",
+          "preview": "https://youtu.be/HgNfUpvru54"
+        },
+        {
+          "name": "Tienda de productos de belleza",
+          "description": "Demostración de una tienda en línea centrada en el catálogo y la experiencia visual de compra.",
+          "tech": [
+            "Next.js",
+            "React",
+            "E-commerce",
+            "Visual UX",
+            "Microinteractions",
+            "Tailwind CSS"
+          ],
+          "status": "Demostración",
+          "link": "https://beauty-ecommerce-web.vercel.app/",
+          "preview": "https://youtu.be/FwdRnqpphYA"
+        },
+        {
+          "name": "Gestor financiero conversacional",
+          "description": "Demostración de una interfaz para consultar información financiera mediante conversaciones con IA.",
+          "tech": [
+            "Next.js",
+            "React",
+            "AI Integration",
+            "Conversational UI",
+            "Finance App",
+            "Dashboards"
+          ],
+          "status": "Demostración",
+          "link": "https://v0-portal-financiero-conversacional.vercel.app/",
+          "preview": "https://youtu.be/HgNfUpvru54"
+        },
+        {
+          "name": "Tienda para marca de moda",
+          "description": "Demostración de una experiencia de comercio electrónico para presentar productos y recorrer el catálogo.",
+          "tech": [
+            "Next.js",
+            "React",
+            "E-commerce",
+            "GSAP",
+            "Lenis",
+            "Motion Design"
+          ],
+          "status": "Demostración",
+          "link": "https://ivanz92.sg-host.com/",
+          "preview": "https://youtu.be/HnEAPewnPX0"
+        },
+        {
+          "name": "Sistema para barberías y estéticas",
+          "description": "Demostración de una aplicación con flujos de citas, clientes y operación del negocio.",
+          "tech": [
+            "Next.js",
+            "React",
+            "Web App",
+            "Booking System",
+            "POS",
+            "CRM"
+          ],
+          "status": "Demostración",
+          "link": "https://barber-shop-full-system.vercel.app/",
+          "preview": "https://youtu.be/PflAV4jWCtI"
+        },
+        {
+          "name": "Plataforma educativa",
+          "description": "Demostración de una plataforma con vistas para alumnos, docentes y administración.",
+          "tech": [
+            "Next.js",
+            "React",
+            "Web App",
+            "Role-based UI",
+            "Dashboards",
+            "Tailwind CSS"
+          ],
+          "status": "Demostración",
+          "link": "https://marketing-digital-academia.vercel.app/",
+          "preview": "https://youtu.be/QWK92JBAACg"
+        },
+        {
+          "name": "Gestión de membresías",
+          "description": "Demostración de una aplicación para consultar y administrar miembros y afiliaciones.",
+          "tech": [
+            "Next.js",
+            "React",
+            "Web App",
+            "Multi-tenant",
+            "Membership System",
+            "Dashboards"
+          ],
+          "status": "Demostración",
+          "link": "https://membership-system-fitness.vercel.app/",
+          "preview": "https://youtu.be/x8HUsnPW0_k"
+        },
+        {
+          "name": "Fidelización con QR y recompensas",
+          "description": "Demostración de una aplicación para registrar visitas y consultar recompensas de clientes recurrentes.",
+          "tech": [
+            "Next.js",
+            "React",
+            "Web App",
+            "Multi-tenant",
+            "Membership System",
+            "Dashboards"
+          ],
+          "status": "Demostración",
+          "link": "https://app-fidelidad-barberia.vercel.app/",
+          "preview": "https://youtu.be/mrQORiHabVs"
+        }
+      ]
     },
     "proyectos-ai-tools": {
-      title: "Herramientas IA",
-      description: "Herramientas impulsadas por IA para resolver tareas específicas con flujos claros y accionables.",
-      icon: <AtomIcon size={20} />,
-      projects: [
-        { name: "Generador de contenido SEO para e-commerce basado en visión + IA", description: "Herramienta web de generación automática de contenido para e-commerce, implementada con React y Next.js, que combina análisis de imagen con modelos de IA para producir títulos optimizados, descripciones persuasivas, palabras clave SEO y textos listos para publicidad. El sistema procesa la imagen subida por el usuario, extrae contexto semántico y genera múltiples salidas estructuradas según plataforma (Shopify, Mercado Libre, Instagram) y tono seleccionado. Incluye soporte multidioma (ES/EN) para adaptar la redacción al mercado objetivo. La arquitectura separa la capa de UI, el procesamiento de imagen y la generación textual, permitiendo escalar hacia nuevas plataformas o formatos sin modificar el núcleo del sistema. Desplegado en Vercel con HSTS y optimización mediante Priority Hints, priorizando respuesta rápida y experiencia fluida.", tech: ["Next.js", "React", "AI Integration", "Computer Vision", "SEO Automation", "E-commerce Tools", "Multilingual", "Vercel", "HSTS", "Performance"], status: "Live", link: "https://ai-product-describer.vercel.app/", preview: "https://youtu.be/dfK7F0Bf2LM" },
-        { name: "Asistente de diagnóstico de errores con IA para logs y stack traces", description: "Herramienta web para depuración asistida por IA, implementada con React y Next.js. El usuario pega errores de consola, logs o stack traces y el sistema genera una explicación estructurada: qué significa el error, causas probables, cómo reproducirlo/validarlo y una lista priorizada de pasos para resolverlo. La arquitectura separa la UI de captura (input de error, ejemplos y controles) del motor de análisis, permitiendo ajustar el formato de salida por tipo de error (runtime, build, dependencias, red, etc.). Incluye historial local de análisis con categorización y favoritos para reutilizar soluciones frecuentes, optimizando el flujo de debugging en equipos o proyectos repetitivos. Desplegado en Vercel con HSTS y optimización de carga con Priority Hints, enfocado en respuesta rápida y UX de copiar/pegar -> diagnóstico accionable.", tech: ["Next.js", "React", "AI Integration", "Developer Tools", "Log Analysis", "Debugging Assistant", "Vercel", "HSTS", "Performance"], status: "Live", link: "https://ai-error-explainer-eight.vercel.app/", preview: "https://youtu.be/tq6klSZjIgQ" },
-        { name: "Sistema de optimización de prompts con procesamiento asistido por IA", description: "Herramienta web enfocada en optimizar prompts para modelos de lenguaje, implementada con React y Next.js. La aplicación analiza texto libre ingresado por el usuario y lo transforma en una instrucción estructurada, incorporando contexto, objetivo y formato esperado para mejorar la calidad de salida en modelos de IA externos. La arquitectura separa la capa de UI, el motor de reformulación y la lógica de generación estructurada, permitiendo adaptar el sistema a distintos modelos de lenguaje sin modificar la interfaz. El frontend prioriza claridad de interacción y baja fricción: entrada libre, selector de estilo y generación instantánea del prompt optimizado listo para copiar. Desplegado en Vercel con políticas de seguridad (HSTS) y optimización de carga mediante Priority Hints, el proyecto funciona como demostración de diseño de herramientas utilitarias impulsadas por IA.", tech: ["Next.js", "React", "AI Integration", "Prompt Engineering", "LLM Tools", "Text Processing", "Vercel", "HSTS", "Performance"], status: "Live", link: "https://ai-product-describer.vercel.app/", preview: "https://youtu.be/ZXxMrqALGAk" },
-      ],
-    },
-    /* "proyectos-mvps": {
-      title: "MVPs",
-      description: "Productos minimos viables entregados en tiempo record.",
-      icon: <RocketIcon size={20} />,
-      projects: [
-        { name: "ValidaBot", description: "Herramienta de validacion de ideas de negocio con encuestas automatizadas y analisis de mercado.", tech: ["Next.js", "OpenAI", "Supabase"], status: "Beta", link: "#" },
-        { name: "QuickInvoice", description: "Generador de facturas para freelancers con envio automatico y tracking de pagos.", tech: ["React", "Node.js", "PDF", "Stripe"], status: "Lanzado", link: "#" },
-        { name: "FitTrack", description: "App de seguimiento de rutinas de ejercicio con progresion visual y estadisticas.", tech: ["Next.js", "Supabase", "Charts"], status: "MVP", link: "#" },
-      ],
-    }, */
-    "proyectos-experimentos": {
-      title: "Experimentos",
-      description: "Exploraciones técnicas y proyectos personales.",
-      icon: <RocketIcon size={20} />,
-      projects: experimentsEs,
-    },
+      "title": "Herramientas con inteligencia artificial",
+      "description": "Una selección de sitios, herramientas y demostraciones que muestran distintas formas de resolver necesidades con tecnología.",
+      "projects": [
+        {
+          "name": "Contenido de productos con IA",
+          "description": "Herramienta que utiliza imágenes e inteligencia artificial para preparar títulos y descripciones de productos.",
+          "tech": [
+            "Next.js",
+            "React",
+            "AI Integration",
+            "Computer Vision",
+            "SEO Automation",
+            "E-commerce Tools"
+          ],
+          "status": "Publicado",
+          "link": "https://ai-product-describer.vercel.app/",
+          "preview": "https://youtu.be/dfK7F0Bf2LM"
+        },
+        {
+          "name": "Asistente de diagnóstico de errores",
+          "description": "Herramienta para interpretar errores y registros técnicos y preparar pasos de revisión.",
+          "tech": [
+            "Next.js",
+            "React",
+            "AI Integration",
+            "Developer Tools",
+            "Log Analysis",
+            "Debugging Assistant"
+          ],
+          "status": "Publicado",
+          "link": "https://ai-error-explainer-eight.vercel.app/",
+          "preview": "https://youtu.be/tq6klSZjIgQ"
+        },
+        {
+          "name": "Optimización de instrucciones para IA",
+          "description": "Demostración de una herramienta que organiza contexto, objetivos y formato en una instrucción para modelos de IA.",
+          "tech": [
+            "Next.js",
+            "React",
+            "AI Integration",
+            "Prompt Engineering",
+            "LLM Tools",
+            "Text Processing"
+          ],
+          "status": "Publicado",
+          "link": "https://youtu.be/ZXxMrqALGAk",
+          "preview": "https://youtu.be/ZXxMrqALGAk"
+        }
+      ]
+    }
   },
-  en: {
+  "en": {
+"proyectos-experimentos": {
+  "title": "Interface and motion experiments",
+  "description": "Animation, interaction and design explorations created in CodePen.",
+  "projects": experimentsEn
+},
     "proyectos-sitios": {
-      title: "Websites",
-      description: "Corporate and marketing websites optimized for SEO and performance.",
-      icon: <EarthIcon size={20} />,
-      projects: [
-        { name: "TechCorp Corporate Website", description: "Corporate website with integrated CMS, multilingual support, and advanced SEO optimization.", tech: ["Next.js", "TypeScript", "Tailwind CSS", "Strapi CMS"], status: "Production", link: "#", preview: "/gifs/web-template.gif" },
-        { name: "Design Portfolio", description: "Professional digital portfolio with interactive gallery, animation, and direct contact.", tech: ["React", "Framer Motion", "Tailwind", "SendGrid"], status: "Production", link: "#", preview: "/gifs/web-template.gif" },
-        { name: "Blog + Ecommerce Website", description: "Integrated blog and store platform with dynamic articles and shopping cart.", tech: ["Next.js", "MDX", "Stripe", "PostgreSQL"], status: "Production", link: "#", preview: "/gifs/web-template.gif" },
-      ],
+      "title": "Website design and development",
+      "description": "A selection of websites, tools and demonstrations showing different ways to address needs with technology.",
+      "projects": [
+        {
+          "name": "Architecture website",
+          "description": "A visual exploration of architectural projects with image-led content and navigation.",
+          "tech": [
+            "Next.js",
+            "React",
+            "SSG",
+            "Tailwind CSS",
+            "shadcn/ui",
+            "Radix UI"
+          ],
+          "status": "Demonstration",
+          "link": "https://ivanz88.sg-host.com/",
+          "preview": "https://i.imgur.com/ZSqN1vt.gif"
+        },
+        {
+          "name": "Marketing agency website",
+          "description": "A website demonstration for presenting services, projects and a commercial offering.",
+          "tech": [
+            "Next.js",
+            "React",
+            "Supabase",
+            "PostgreSQL",
+            "Tailwind CSS",
+            "shadcn/ui"
+          ],
+          "status": "Demonstration",
+          "link": "https://marketing-web-template.vercel.app/",
+          "preview": "https://youtu.be/Qn7HhzGG5Vc"
+        },
+        {
+          "name": "Creative studio website",
+          "description": "A web experience combining visual composition and motion to present a studio's work.",
+          "tech": [
+            "Next.js",
+            "React",
+            "GSAP",
+            "Lenis",
+            "Motion Design",
+            "SSG"
+          ],
+          "status": "Demonstration",
+          "link": "https://ivanz89.sg-host.com/",
+          "preview": "https://youtu.be/-2bu2h-BvPo"
+        },
+        {
+          "name": "Architectural photography gallery",
+          "description": "A minimalist image gallery with a considered scrolling experience.",
+          "tech": [
+            "HTML",
+            "CSS",
+            "JavaScript",
+            "GSAP",
+            "Lenis",
+            "Minimal UI"
+          ],
+          "status": "Demonstration",
+          "link": "https://ivanz90.sg-host.com/",
+          "preview": "https://youtu.be/8C29lbWuEvw"
+        },
+        {
+          "name": "Interior design website",
+          "description": "An interface demonstration for presenting interior design projects and visual content.",
+          "tech": [
+            "Next.js",
+            "React",
+            "Framer Motion",
+            "Lenis",
+            "Tailwind CSS",
+            "shadcn/ui"
+          ],
+          "status": "Demonstration",
+          "link": "https://ivanz90.sg-host.com/",
+          "preview": "https://youtu.be/PZfKFIgPr1w"
+        },
+        {
+          "name": "Real estate website with EasyBroker",
+          "description": "An EasyBroker property integration in a WordPress website for browsing real estate listings.",
+          "tech": [
+            "WordPress",
+            "Plugin Development",
+            "API Integration",
+            "Custom Post Types",
+            "Data Mapping"
+          ],
+          "status": "Published",
+          "link": "https://negocianterealestate.com/",
+          "preview": "https://youtu.be/hjv3JFzTsJE"
+        },
+        {
+          "name": "Restaurant website",
+          "description": "A page presenting the dining offering, business information and contact options.",
+          "tech": [
+            "HTML",
+            "CSS",
+            "JavaScript",
+            "Static Site",
+            "OpenTable Integration",
+            "UI Branding"
+          ],
+          "status": "Published",
+          "link": "https://cienfuegos.mx/",
+          "preview": "https://youtu.be/tvaE6EzjBPI"
+        },
+        {
+          "name": "Restaurant interface experiment",
+          "description": "A design and motion demonstration exploring a brand's visual presentation.",
+          "tech": [
+            "HTML",
+            "CSS",
+            "JavaScript",
+            "GSAP",
+            "Microinteractions",
+            "Swiper.js"
+          ],
+          "status": "Demonstration",
+          "link": "https://ivanz31.sg-host.com/",
+          "preview": "https://youtu.be/o9kQovpPLWI"
+        },
+        {
+          "name": "Free-navigation gallery",
+          "description": "A visual gallery exploration with scrolling in two directions.",
+          "tech": [
+            "HTML",
+            "CSS",
+            "JavaScript",
+            "GSAP",
+            "Interactive Gallery",
+            "2D Scrolling"
+          ],
+          "status": "Demonstration",
+          "link": "https://ivanz87.sg-host.com/",
+          "preview": "https://youtu.be/6d3KezAIlL0"
+        }
+      ]
     },
     "proyectos-apps": {
-      title: "Web Apps",
-      description: "Complete web applications ready for production.",
-      icon: <LayoutPanelTopIcon size={20} />,
-      projects: [
-        { name: "SaaS Dashboard", description: "Control panel for subscriptions and real-time business metrics.", tech: ["Next.js", "TypeScript", "Supabase", "Stripe"], status: "Production", link: "#", preview: "/gifs/web-template.gif" },
-        { name: "Headless Ecommerce", description: "Online store with headless CMS, payment gateway, and automated inventory management.", tech: ["React", "Node.js", "PostgreSQL", "Tailwind"], status: "Production", link: "#", preview: "/gifs/web-template.gif" },
-        { name: "Booking Platform", description: "Reservation system with interactive calendar, notifications, and integrated payments.", tech: ["Next.js", "Prisma", "Resend", "Vercel"], status: "Production", link: "#", preview: "/gifs/web-template.gif" },
-      ],
+      "title": "Web application demonstrations",
+      "description": "A selection of websites, tools and demonstrations showing different ways to address needs with technology.",
+      "projects": [
+        {
+          "name": "Client reporting dashboard",
+          "description": "A dashboard demonstration that organizes client reports and data for easier review.",
+          "tech": [
+            "Next.js",
+            "React",
+            "B2B SaaS",
+            "Client Portals",
+            "Dashboards",
+            "Recharts"
+          ],
+          "status": "Demonstration",
+          "link": "https://v0-panel-de-reportes-de-usuario.vercel.app/",
+          "preview": "https://youtu.be/HgNfUpvru54"
+        },
+        {
+          "name": "Beauty ecommerce demo",
+          "description": "An online store demonstration focused on the catalog and shopping experience.",
+          "tech": [
+            "Next.js",
+            "React",
+            "E-commerce",
+            "Visual UX",
+            "Microinteractions",
+            "Tailwind CSS"
+          ],
+          "status": "Demonstration",
+          "link": "https://beauty-ecommerce-web.vercel.app/",
+          "preview": "https://youtu.be/FwdRnqpphYA"
+        },
+        {
+          "name": "Conversational finance demo",
+          "description": "An interface demonstration for exploring financial information through AI conversations.",
+          "tech": [
+            "Next.js",
+            "React",
+            "AI Integration",
+            "Conversational UI",
+            "Finance App",
+            "Dashboards"
+          ],
+          "status": "Demonstration",
+          "link": "https://v0-portal-financiero-conversacional.vercel.app/",
+          "preview": "https://youtu.be/HgNfUpvru54"
+        },
+        {
+          "name": "Fashion ecommerce demo",
+          "description": "An ecommerce experience demonstrating product presentation and catalog browsing.",
+          "tech": [
+            "Next.js",
+            "React",
+            "E-commerce",
+            "GSAP",
+            "Lenis",
+            "Motion Design"
+          ],
+          "status": "Demonstration",
+          "link": "https://ivanz92.sg-host.com/",
+          "preview": "https://youtu.be/HnEAPewnPX0"
+        },
+        {
+          "name": "Barber and beauty business demo",
+          "description": "An application demonstration with appointment, customer and business workflows.",
+          "tech": [
+            "Next.js",
+            "React",
+            "Web App",
+            "Booking System",
+            "POS",
+            "CRM"
+          ],
+          "status": "Demonstration",
+          "link": "https://barber-shop-full-system.vercel.app/",
+          "preview": "https://youtu.be/PflAV4jWCtI"
+        },
+        {
+          "name": "Education platform demo",
+          "description": "A platform demonstration with student, teacher and administrator views.",
+          "tech": [
+            "Next.js",
+            "React",
+            "Web App",
+            "Role-based UI",
+            "Dashboards",
+            "Tailwind CSS"
+          ],
+          "status": "Demonstration",
+          "link": "https://marketing-digital-academia.vercel.app/",
+          "preview": "https://youtu.be/QWK92JBAACg"
+        },
+        {
+          "name": "Membership management demo",
+          "description": "An application demonstration for viewing and managing members and memberships.",
+          "tech": [
+            "Next.js",
+            "React",
+            "Web App",
+            "Multi-tenant",
+            "Membership System",
+            "Dashboards"
+          ],
+          "status": "Demonstration",
+          "link": "https://membership-system-fitness.vercel.app/",
+          "preview": "https://youtu.be/x8HUsnPW0_k"
+        },
+        {
+          "name": "QR loyalty and rewards demo",
+          "description": "An application demonstration for recording visits and exploring repeat-customer rewards.",
+          "tech": [
+            "Next.js",
+            "React",
+            "Web App",
+            "Multi-tenant",
+            "Membership System",
+            "Dashboards"
+          ],
+          "status": "Demonstration",
+          "link": "https://app-fidelidad-barberia.vercel.app/",
+          "preview": "https://youtu.be/mrQORiHabVs"
+        }
+      ]
     },
     "proyectos-ai-tools": {
-      title: "AI Tools",
-      description: "AI-powered tools designed to solve focused workflows with fast, practical outcomes.",
-      icon: <AtomIcon size={20} />,
-      projects: [
-        { name: "AI-assisted prompt optimization system", description: "Web tool focused on optimizing prompts for language models, built with React and Next.js. The app analyzes user-provided free text and transforms it into a structured instruction, adding context, objective, and expected format to improve output quality in external AI models. The architecture separates the UI layer, reformulation engine, and structured generation logic, making it adaptable to different language models without changing the interface. The frontend prioritizes clarity and low-friction interaction: free-text input, style selector, and instant generation of a copy-ready optimized prompt. Deployed on Vercel with HSTS security policies and Priority Hints-based loading optimization, the project demonstrates practical AI utility-tool design.", tech: ["Next.js", "React", "AI Integration", "Prompt Engineering", "LLM Tools", "Text Processing", "Vercel", "HSTS", "Performance"], status: "Live", link: "https://ai-product-describer.vercel.app/", preview: "https://youtu.be/ZXxMrqALGAk" },
-      ],
-    },
-    /* "proyectos-mvps": {
-      title: "MVPs",
-      description: "Minimum viable products delivered in record time.",
-      icon: <RocketIcon size={20} />,
-      projects: [
-        { name: "ValidaBot", description: "Business idea validation tool with automated surveys and market analysis.", tech: ["Next.js", "OpenAI", "Supabase"], status: "Beta", link: "#" },
-        { name: "QuickInvoice", description: "Invoice generator for freelancers with automated sending and payment tracking.", tech: ["React", "Node.js", "PDF", "Stripe"], status: "Launched", link: "#" },
-        { name: "FitTrack", description: "Workout tracking app with visual progression and analytics.", tech: ["Next.js", "Supabase", "Charts"], status: "MVP", link: "#" },
-      ],
-    }, */
-    "proyectos-experimentos": {
-      title: "Experiments",
-      description: "Technical explorations and personal projects.",
-      icon: <RocketIcon size={20} />,
-      projects: experimentsEn,
-    },
-  },
+      "title": "AI tools",
+      "description": "A selection of websites, tools and demonstrations showing different ways to address needs with technology.",
+      "projects": [
+        {
+          "name": "AI product content tool",
+          "description": "A tool using images and AI to prepare product titles and descriptions.",
+          "tech": [
+            "Next.js",
+            "React",
+            "AI Integration",
+            "Computer Vision",
+            "SEO Automation",
+            "E-commerce Tools"
+          ],
+          "status": "Published",
+          "link": "https://ai-product-describer.vercel.app/",
+          "preview": "https://youtu.be/dfK7F0Bf2LM"
+        },
+        {
+          "name": "AI error diagnosis assistant",
+          "description": "A tool for interpreting errors and technical logs and preparing review steps.",
+          "tech": [
+            "Next.js",
+            "React",
+            "AI Integration",
+            "Developer Tools",
+            "Log Analysis",
+            "Debugging Assistant"
+          ],
+          "status": "Published",
+          "link": "https://ai-error-explainer-eight.vercel.app/",
+          "preview": "https://youtu.be/tq6klSZjIgQ"
+        },
+        {
+          "name": "AI prompt optimization demo",
+          "description": "A demonstration of a tool that organizes context, goals and output format into an AI instruction.",
+          "tech": [
+            "Next.js",
+            "React",
+            "AI Integration",
+            "Prompt Engineering",
+            "LLM Tools",
+            "Text Processing"
+          ],
+          "status": "Published",
+          "link": "https://youtu.be/ZXxMrqALGAk",
+          "preview": "https://youtu.be/ZXxMrqALGAk"
+        }
+      ]
+    }
+  }
 }
 
-export function ProyectosSection({ type, locale }: { type: "proyectos-sitios" | "proyectos-apps" | "proyectos-ai-tools" | "proyectos-mvps" | "proyectos-experimentos"; locale: Locale }) {
+
+export function ProyectosSection({ type, locale }: { type: "proyectos-sitios" | "proyectos-apps" | "proyectos-ai-tools" | "proyectos-experimentos"; locale: Locale }) {
   const data = projectsData[locale][type]
   const showQR = type === "proyectos-sitios" || type === "proyectos-apps" || type === "proyectos-ai-tools"
   const isExperiments = type === "proyectos-experimentos"
@@ -302,7 +835,7 @@ export function ProyectosSection({ type, locale }: { type: "proyectos-sitios" | 
     <div className="flex flex-col gap-10 py-8">
       <div className="flex flex-col gap-3">
         <motion.div {...fadeUp} transition={{ duration: 0.5, delay: 0.1 }} className="flex items-center gap-3">
-          <div className="flex items-center justify-center h-9 w-9 rounded-md bg-accent text-foreground">{data.icon}</div>
+          <div className="flex items-center justify-center h-9 w-9 rounded-md bg-accent text-foreground"><LayoutPanelTopIcon /></div>
           <div>
             <h1 className="text-2xl font-bold tracking-tight">{data.title}</h1>
           </div>
@@ -313,7 +846,7 @@ export function ProyectosSection({ type, locale }: { type: "proyectos-sitios" | 
       <div className="flex flex-col gap-4">
         {data.projects.map((project, i) => {
           const youtubePreviewUrl = getYouTubePreviewEmbedUrl(project.preview)
-          const previewAlt = locale === "en" ? `Preview of ${project.name}` : `Preview de ${project.name}`
+          const previewAlt = locale === "en" ? `Preview of ${project.name}` : `Vista previa de ${project.name}`
           const isActiveHintCard = showQR && isCompact && (activeTouchHint === i || hoveredProject === project.name)
 
           return isExperiments && !project.embedUrl ? null : <motion.div
@@ -430,7 +963,7 @@ export function ProyectosSection({ type, locale }: { type: "proyectos-sitios" | 
                 <div className="relative w-full bg-black">
                   <iframe
                     src={project.embedUrl}
-                    title={locale === "en" ? `Embed of ${project.name}` : `Embed de ${project.name}`}
+                    title={locale === "en" ? `Embed of ${project.name}` : `Vista de ${project.name}`}
                     className="h-[320px] w-full md:h-[420px]"
                     loading="lazy"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -439,7 +972,7 @@ export function ProyectosSection({ type, locale }: { type: "proyectos-sitios" | 
                 <div className="flex flex-col gap-3 p-4 md:p-5">
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex flex-col gap-1.5">
-                      <h3 className="text-base font-semibold text-foreground group-hover:text-primary transition-colors">{project.name}</h3>
+                      <h2 className="text-base font-semibold text-foreground group-hover:text-primary transition-colors">{project.name}</h2>
                       <span className="inline-flex items-center px-2 py-0.5 text-[11px] font-mono rounded-sm bg-accent text-muted-foreground w-fit">{project.status}</span>
                     </div>
                     {project.link && (
@@ -467,7 +1000,7 @@ export function ProyectosSection({ type, locale }: { type: "proyectos-sitios" | 
                 <div className="flex-1 flex flex-col gap-4">
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex flex-col gap-1.5">
-                      <h3 className="text-base font-semibold text-foreground group-hover:text-primary transition-colors">{project.name}</h3>
+                      <h2 className="text-base font-semibold text-foreground group-hover:text-primary transition-colors">{project.name}</h2>
                       <span className="inline-flex items-center px-2 py-0.5 text-[11px] font-mono rounded-sm bg-accent text-muted-foreground w-fit">{project.status}</span>
                       {showQR && isCompact && isActiveHintCard && (
                         <div className="mt-1 inline-flex items-center gap-1.5 rounded-full border border-primary/25 bg-primary/10 px-2 py-1">

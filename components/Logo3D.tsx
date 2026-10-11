@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import { useTheme } from "next-themes"
 
-export default function Logo3D({ modelRef }: { modelRef: any }) {
+export default function Logo3D({ modelRef, alt = "Logotipo 3D de Iván Zavala" }: { modelRef: any; alt?: string }) {
   const [ready, setReady] = useState(false)
   const { resolvedTheme } = useTheme()
   const isDark = resolvedTheme === "dark"
@@ -108,7 +108,7 @@ export default function Logo3D({ modelRef }: { modelRef: any }) {
     return (
       <img
         src="/logo-ivan-zavala.jpg"
-        alt="Logo de Iván Zavala"
+        alt={alt}
         style={{
           width: 56,
           height: 56,
@@ -124,7 +124,7 @@ export default function Logo3D({ modelRef }: { modelRef: any }) {
     // @ts-ignore
     <model-viewer
       src="/3d/logo-ivan-zavala.glb"
-      alt="Logotipo 3D de Iván Zavala"
+      alt={alt}
       className="h-14 w-14 rounded-sm"
       scale="0.02 0.02 0.02"
       reveal="auto"
