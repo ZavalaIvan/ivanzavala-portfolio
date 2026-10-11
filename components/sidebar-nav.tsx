@@ -6,6 +6,7 @@ import dynamic from "next/dynamic"
 import { Bot, ChevronDown, Code2, FolderOpen, Globe, Home, Mail, Menu, Moon, Sun, User, Workflow, Wrench, X } from "lucide-react"
 import { useTheme } from "next-themes"
 import { pageHref, type Locale, type PageId } from "@/lib/site"
+import { languageChoiceHref } from "@/lib/language"
 import { cn } from "@/lib/utils"
 
 const Logo3D = dynamic(() => import("./Logo3D"), { ssr: false })
@@ -21,7 +22,7 @@ function Brand({ locale, onNavigate }: { locale: Locale; onNavigate: () => void 
     window.addEventListener("wheel", onWheel, { passive: true })
     return () => window.removeEventListener("wheel", onWheel)
   }, [])
-  return <Link href={pageHref("home", locale)} onClick={onNavigate} className="flex items-center gap-3 px-6 py-7"><div className="flex h-[72px] w-[72px] shrink-0 items-center justify-center"><Logo3D modelRef={modelRef} alt={locale === "en" ? "Iván Zavala 3D logo" : "Logotipo 3D de Iván Zavala"} /></div><span className="text-sm font-semibold tracking-tight">iván zavala</span></Link>
+  return <a href={languageChoiceHref("home", locale)} onClick={onNavigate} className="flex items-center gap-3 px-6 py-7"><div className="flex h-[72px] w-[72px] shrink-0 items-center justify-center"><Logo3D modelRef={modelRef} alt={locale === "en" ? "Iván Zavala 3D logo" : "Logotipo 3D de Iván Zavala"} /></div><span className="text-sm font-semibold tracking-tight">iván zavala</span></a>
 }
 
 export function SidebarNav({ activePage, locale }: { activePage: PageId; locale: Locale }) {
@@ -46,7 +47,7 @@ export function SidebarNav({ activePage, locale }: { activePage: PageId; locale:
   const content = <nav className="flex h-full flex-col" aria-label={en ? "Main navigation" : "Navegación principal"}>
     <Brand locale={locale} onNavigate={closeMenu} />
     <div className="flex-1 overflow-y-auto px-3">
-      {link("home", en ? "Home" : "Inicio", Home)}
+      <a href={languageChoiceHref("home", locale)} onClick={closeMenu} aria-current={activePage === "home" ? "page" : undefined} className={cn("flex items-center gap-3 rounded-md px-3 py-2.5 text-sm transition-colors hover:bg-accent/60", activePage === "home" ? "bg-accent text-foreground" : "text-muted-foreground")}><Home aria-hidden="true" className="h-4 w-4 shrink-0" /><span className="font-medium">{en ? "Home" : "Inicio"}</span></a>
       <button type="button" onClick={() => toggle("services")} aria-expanded={expanded.includes("services")} className="flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-sm hover:bg-accent/60"><Workflow aria-hidden="true" className="h-4 w-4" /><span className="flex-1 text-left font-medium">{en ? "Services" : "Servicios"}</span><ChevronDown aria-hidden="true" className={cn("h-3.5 w-3.5 transition-transform", expanded.includes("services") && "rotate-180")} /></button>
       {expanded.includes("services") && <div className="ml-4 border-l border-border pl-2">{link("automation", en ? "Automation" : "Automatización", Workflow, true)}{link("ai", en ? "AI agents" : "Agentes de IA", Bot, true)}{link("software", en ? "Custom software" : "Software a medida", Code2, true)}{link("support", en ? "Maintenance" : "Mantenimiento", Wrench, true)}</div>}
       {link("projects", en ? "Projects" : "Proyectos", FolderOpen)}
@@ -57,7 +58,7 @@ export function SidebarNav({ activePage, locale }: { activePage: PageId; locale:
     </div>
     <div className="mt-4 flex flex-col gap-1 border-t border-border px-4 py-4">
       <button type="button" onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")} className="flex items-center gap-3 rounded-md px-3 py-2.5 text-sm text-muted-foreground hover:bg-accent/60 hover:text-foreground">{mounted && resolvedTheme === "light" ? <Moon aria-hidden="true" className="h-4 w-4" /> : <Sun aria-hidden="true" className="h-4 w-4" />}<span>{mounted ? resolvedTheme === "dark" ? (en ? "Light mode" : "Modo claro") : (en ? "Dark mode" : "Modo oscuro") : (en ? "Theme" : "Tema")}</span></button>
-      <Link href={pageHref(activePage, en ? "es" : "en")} hrefLang={en ? "es" : "en"} onClick={closeMenu} aria-label={en ? "Cambiar a español" : "Switch to English"} className="flex items-center gap-3 rounded-md px-3 py-2.5 text-sm text-muted-foreground hover:bg-accent/60 hover:text-foreground"><Globe aria-hidden="true" className="h-4 w-4" /><span>{en ? "Español" : "English"}</span></Link>
+      <a href={languageChoiceHref(activePage, en ? "es" : "en")} hrefLang={en ? "es" : "en"} onClick={closeMenu} aria-label={en ? "Cambiar a español" : "Switch to English"} className="flex items-center gap-3 rounded-md px-3 py-2.5 text-sm text-muted-foreground hover:bg-accent/60 hover:text-foreground"><Globe aria-hidden="true" className="h-4 w-4" /><span>{en ? "Español" : "English"}</span></a>
       <p className="px-3 pt-2 text-xs font-mono text-muted-foreground">Software · {en ? "AI · Automation" : "IA · Automatización"}</p>
     </div>
   </nav>

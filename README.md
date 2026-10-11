@@ -35,6 +35,10 @@ El historial del portafolio se conserva en este repositorio. El repositorio ante
 
 La versión española comienza en `/` y la inglesa en `/en`. Cada servicio, colección de proyectos y página informativa tiene una dirección propia. El selector de idioma conserva la página equivalente.
 
+Al entrar a `/`, `proxy.ts` consulta la elección guardada y después el idioma preferido del navegador (`Accept-Language`). Una preferencia española muestra español; los demás idiomas muestran inglés. Cuando no se comunica un idioma, se conserva español para mantener disponible la portada original, también para buscadores.
+
+El selector utiliza `/choose-language`, guarda una cookie de preferencia durante un año y redirige a la página equivalente. La navegación a Inicio conserva el idioma de la página. Las direcciones internas explícitas, el sitemap, los archivos y las APIs mantienen su comportamiento. Los enlaces del selector son enlaces normales, por lo que el cambio funciona también sin JavaScript y no se ejecuta durante la precarga de páginas.
+
 - `lib/site.ts`: rutas, contacto, títulos y descripciones para buscadores.
 - `lib/services.ts`: textos, alcance y preguntas frecuentes de los servicios.
 - `components/sections/`: portada, perfil, proyectos, proceso y contacto.
