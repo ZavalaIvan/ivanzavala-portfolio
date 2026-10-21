@@ -2,12 +2,14 @@ import Link from "next/link"
 import { pageHref, type Locale } from "@/lib/site"
 import { serviceCopy, type ServiceId } from "@/lib/services"
 import { cardClass, CheckList, ContactCta, SectionHeading } from "@/components/section-ui"
+import { AgentProjectCards } from "@/components/sections/agent-projects"
 
 export function ServiciosSection({ service, locale }: { service: ServiceId; locale: Locale }) {
   const en = locale === "en"
   const data = serviceCopy(service, locale)
   return <div className="flex flex-col gap-10 py-6">
     <SectionHeading label={en ? "Services · Iván Zavala" : "Servicios · Iván Zavala"} title={data.title} description={data.description} />
+    {service === "ai" && <section className="flex flex-col gap-5"><div className="flex flex-wrap items-center justify-between gap-3"><h2 className="text-xl font-semibold">{en ? "Developed AI agent projects" : "Proyectos de agentes IA desarrollados"}</h2><Link href={pageHref("agents", locale)} className="text-sm underline underline-offset-4">{en ? "Explore the collection" : "Ver la colección"}</Link></div><AgentProjectCards locale={locale} compact /></section>}
     <section className="flex flex-col gap-4"><h2 className="text-xl font-semibold">{en ? "What we can build" : "Qué podemos implementar"}</h2><div className="grid gap-4 md:grid-cols-3">{data.examples.map(example => <article key={example.title} className={`${cardClass} flex flex-col gap-3`}><h3 className="text-base font-semibold">{example.title}</h3><p className="text-sm leading-relaxed text-muted-foreground">{example.description}</p></article>)}</div></section>
     <section className="flex flex-col gap-4"><h2 className="text-xl font-semibold">{en ? "What the service covers" : "Qué contempla el servicio"}</h2><CheckList items={data.features} /><p className="text-xs leading-relaxed text-muted-foreground">{en ? "The proposal defines the functions, deliverables and terms for your specific project." : "La propuesta define las funciones, los entregables y las condiciones de tu proyecto."}</p></section>
     <section className={`${cardClass} flex flex-col gap-3`}><h2 className="text-lg font-semibold">{en ? "Work directly with me" : "Trabaja directamente conmigo"}</h2><p className="text-sm leading-relaxed text-muted-foreground">{en ? "We define the need, agree on the scope and review progress together. Complete projects include training and a bug-fix warranty under the agreed terms. Monthly maintenance is available separately." : "Definimos la necesidad, acordamos el alcance y revisamos los avances juntos. Los proyectos completos incluyen capacitación y garantía de correcciones bajo las condiciones acordadas. El mantenimiento mensual se contrata aparte."}</p><Link href={pageHref("engagement", locale)} className="text-sm underline underline-offset-4">{en ? "See scope and engagement" : "Conoce el alcance y la contratación"}</Link></section>

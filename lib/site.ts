@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 
 export type Locale = "es" | "en"
-export type PageId = "home" | "automation" | "ai" | "software" | "support" | "projects" | "websites" | "webapps" | "aitools" | "experiments" | "methodology" | "engagement" | "about" | "contact"
+export type PageId = "home" | "automation" | "ai" | "software" | "support" | "projects" | "agents" | "carsa" | "nora" | "websites" | "webapps" | "aitools" | "experiments" | "methodology" | "engagement" | "about" | "contact"
 
 export const siteUrl = "https://ivanzavala.dev"
 export const email = "hola@ivanzavala.dev"
@@ -39,6 +39,21 @@ export const pages: Record<PageId, PageDefinition> = {
     paths: { es: "/proyectos", en: "/en/projects" },
     titles: { es: "Proyectos de automatización, IA y software", en: "Automation, AI and software projects" },
     descriptions: { es: "Conoce el trabajo de Iván Zavala: automatizaciones y agente de ventas listos, además de proyectos de software en desarrollo y demostraciones.", en: "Explore Iván Zavala's work: completed automations and a sales agent, software projects in development, and interface demonstrations." },
+  },
+  agents: {
+    paths: { es: "/proyectos/agentes-ia", en: "/en/projects/ai-agents" },
+    titles: { es: "Proyectos de agentes IA: CARSA y NORA", en: "AI agent projects: CARSA and NORA" },
+    descriptions: { es: "Explora CARSA, un agente comercial conectado a WhatsApp y Google Sheets, y NORA, un asistente personal y laboral con memoria, herramientas y aprobaciones.", en: "Explore CARSA, a sales assistant connected to WhatsApp and Google Sheets, and NORA, a personal and work assistant with memory, tools and approvals." },
+  },
+  carsa: {
+    paths: { es: "/proyectos/agentes-ia/carsa", en: "/en/projects/ai-agents/carsa" },
+    titles: { es: "CARSA: agente IA para WhatsApp y captación comercial", en: "CARSA: a WhatsApp AI assistant for sales enquiries" },
+    descriptions: { es: "Caso de desarrollo de Iván Zavala: WhatsApp Business Platform de Meta, n8n, Google Sheets y una base de conocimiento para atender y organizar prospectos de CARSA.", en: "An Iván Zavala development case study: Meta's WhatsApp Business Platform, n8n, Google Sheets and a knowledge base for CARSA's customer enquiries and leads." },
+  },
+  nora: {
+    paths: { es: "/proyectos/agentes-ia/nora", en: "/en/projects/ai-agents/nora" },
+    titles: { es: "NORA: asistente personal y laboral con inteligencia artificial", en: "NORA: a personal and work AI assistant" },
+    descriptions: { es: "Conoce la arquitectura de NORA: nueve flujos en n8n para chat, memoria, agenda, finanzas, tareas, permisos y seguimiento, con capturas reales del desarrollo.", en: "Explore NORA's architecture: nine n8n workflows for chat, memory, scheduling, finances, tasks, permissions and follow-up, with real development screenshots." },
   },
   websites: {
     paths: { es: "/proyectos/sitios-web", en: "/en/projects/websites" },
