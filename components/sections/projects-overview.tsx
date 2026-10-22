@@ -18,7 +18,7 @@ export function ProjectsOverview({ locale }: { locale: Locale }) {
     { title: "Integración de equipos de seguridad", ready: false, description: "Una aplicación para centralizar la gestión de equipos de seguridad mediante integraciones con APIs de Hikvision.", focus: "Integración de APIs · Aplicación web" },
   ]
   const galleries = [
-    { id: "agents" as const, title: en ? "AI agents · CARSA and NORA" : "Agentes IA · CARSA y NORA" },
+    { id: "agents" as const, title: en ? "AI agents · Cases and prototypes" : "Agentes IA · Casos y prototipos" },
     { id: "websites" as const, title: en ? "Websites" : "Sitios web" },
     { id: "webapps" as const, title: en ? "Web applications" : "Aplicaciones web" },
     { id: "aitools" as const, title: en ? "AI tools" : "Herramientas de IA" },

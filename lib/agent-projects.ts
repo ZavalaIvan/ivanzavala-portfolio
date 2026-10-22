@@ -117,13 +117,3 @@ export function agentProjectCopy(id: AgentProjectId, locale: Locale): AgentProje
     ]).map(([name, purpose, status]) => ({ name, purpose, status })),
   }
 }
-
-export function agentConcepts(locale: Locale) {
-  return locale === "en" ? [
-    { id: "support", title: "Technical support agent", description: "An agent that consults a company's knowledge base, guides initial troubleshooting, creates support tickets and hands complex cases to the right person.", example: "A customer describes an issue → the agent asks for context → suggests documented checks → creates a ticket with the conversation summary.", stack: "Knowledge base · Ticketing API · CRM" },
-    { id: "booking", title: "Booking and appointment agent", description: "An agent for service businesses that answers questions, checks availability and prepares bookings according to the business's rules.", example: "A customer requests a slot → the agent checks available times → gathers required details → confirms only after the booking system accepts it.", stack: "Calendar · Booking API · Notifications" },
-  ] : [
-    { id: "support", title: "Agente de soporte técnico", description: "Un agente que consulta el conocimiento de una empresa, guía el diagnóstico inicial, crea tickets y deriva los casos complejos a la persona adecuada.", example: "El cliente describe un problema → el agente reúne contexto → propone comprobaciones documentadas → crea un ticket con el resumen de la conversación.", stack: "Base de conocimiento · API de tickets · CRM" },
-    { id: "booking", title: "Agente de reservas y citas", description: "Un agente para negocios de servicios que responde preguntas, consulta disponibilidad y prepara reservas según las reglas de la operación.", example: "El cliente pide un horario → el agente consulta disponibilidad → reúne los datos necesarios → confirma únicamente cuando el sistema de reservas lo acepta.", stack: "Calendario · API de reservas · Notificaciones" },
-  ]
-}

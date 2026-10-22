@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 
 export type Locale = "es" | "en"
-export type PageId = "home" | "automation" | "ai" | "software" | "support" | "projects" | "agents" | "carsa" | "nora" | "websites" | "webapps" | "aitools" | "experiments" | "methodology" | "engagement" | "about" | "contact"
+export type PageId = "home" | "automation" | "ai" | "software" | "support" | "projects" | "agents" | "carsa" | "nora" | "supportAgent" | "bookingAgent" | "websites" | "webapps" | "aitools" | "experiments" | "methodology" | "engagement" | "about" | "contact"
 
 export const siteUrl = "https://ivanzavala.dev"
 export const email = "hola@ivanzavala.dev"
@@ -42,8 +42,8 @@ export const pages: Record<PageId, PageDefinition> = {
   },
   agents: {
     paths: { es: "/proyectos/agentes-ia", en: "/en/projects/ai-agents" },
-    titles: { es: "Proyectos de agentes IA: CARSA y NORA", en: "AI agent projects: CARSA and NORA" },
-    descriptions: { es: "Explora CARSA, un agente comercial conectado a WhatsApp y Google Sheets, y NORA, un asistente personal y laboral con memoria, herramientas y aprobaciones.", en: "Explore CARSA, a sales assistant connected to WhatsApp and Google Sheets, and NORA, a personal and work assistant with memory, tools and approvals." },
+    titles: { es: "Agentes IA: CARSA, NORA y prototipos a medida", en: "AI agents: CARSA, NORA and custom prototypes" },
+    descriptions: { es: "Conoce CARSA y NORA, y explora NEXO y TURNO: prototipos de soporte técnico y reservas con interfaces interactivas, código y conexiones documentadas.", en: "Explore CARSA and NORA, plus NEXO and TURNO: technical support and booking prototypes with interactive interfaces, source code and documented connections." },
   },
   carsa: {
     paths: { es: "/proyectos/agentes-ia/carsa", en: "/en/projects/ai-agents/carsa" },
@@ -54,6 +54,16 @@ export const pages: Record<PageId, PageDefinition> = {
     paths: { es: "/proyectos/agentes-ia/nora", en: "/en/projects/ai-agents/nora" },
     titles: { es: "NORA: asistente personal y laboral con inteligencia artificial", en: "NORA: a personal and work AI assistant" },
     descriptions: { es: "Conoce la arquitectura de NORA: nueve flujos en n8n para chat, memoria, agenda, finanzas, tareas, permisos y seguimiento, con capturas reales del desarrollo.", en: "Explore NORA's architecture: nine n8n workflows for chat, memory, scheduling, finances, tasks, permissions and follow-up, with real development screenshots." },
+  },
+  supportAgent: {
+    paths: { es: "/proyectos/agentes-ia/soporte-tecnico", en: "/en/projects/ai-agents/technical-support" },
+    titles: { es: "NEXO: prototipo de agente de soporte técnico a medida", en: "NEXO: a custom technical support agent prototype" },
+    descriptions: { es: "Explora un prototipo de soporte con código a medida: conocimiento documentado, escalamiento, tickets y un adaptador de GitHub, con interfaz y código explicados.", en: "Explore a custom-code support prototype: documented knowledge, escalation, ticket drafts and a GitHub adapter, with an interactive interface and explained source code." },
+  },
+  bookingAgent: {
+    paths: { es: "/proyectos/agentes-ia/reservas-citas", en: "/en/projects/ai-agents/appointments" },
+    titles: { es: "TURNO: prototipo de agente de reservas y citas a medida", en: "TURNO: a custom booking and appointment agent prototype" },
+    descriptions: { es: "Prototipo de reservas con código a medida: disponibilidad, reglas del servicio, confirmación local y adaptadores de Google Calendar. Explora su interfaz y código.", en: "A custom-code booking prototype: availability, service rules, local confirmation and Google Calendar adapters. Explore its interface, source code and implementation status." },
   },
   websites: {
     paths: { es: "/proyectos/sitios-web", en: "/en/projects/websites" },
@@ -104,11 +114,13 @@ export function pageMetadata(id: PageId, locale: Locale): Metadata {
   const page = pages[id]
   const title = `${page.titles[locale]} | Iván Zavala`
   const url = siteUrl + page.paths[locale]
+  const prototypeImage = id === "supportAgent" ? "/projects/agents/nexo-support.webp" : id === "bookingAgent" ? "/projects/agents/turno-booking.webp" : null
+  const shareImage = { url: siteUrl + (prototypeImage ?? "/logo-ivan-zavala.jpg"), alt: prototypeImage ? page.titles[locale] : "Iván Zavala" }
   return {
     title: { absolute: title },
     description: page.descriptions[locale],
     alternates: { canonical: url, languages: { es: siteUrl + page.paths.es, en: siteUrl + page.paths.en, "x-default": siteUrl + page.paths.es } },
-    openGraph: { title, description: page.descriptions[locale], url, siteName: "Iván Zavala", locale: locale === "es" ? "es" : "en", alternateLocale: locale === "es" ? "en" : "es", type: "website", images: [{ url: siteUrl + "/logo-ivan-zavala.jpg", alt: "Iván Zavala" }] },
-    twitter: { card: "summary", title, description: page.descriptions[locale], images: [siteUrl + "/logo-ivan-zavala.jpg"] },
+    openGraph: { title, description: page.descriptions[locale], url, siteName: "Iván Zavala", locale: locale === "es" ? "es" : "en", alternateLocale: locale === "es" ? "en" : "es", type: "website", images: [shareImage] },
+    twitter: { card: prototypeImage ? "summary_large_image" : "summary", title, description: page.descriptions[locale], images: [shareImage.url] },
   }
 }

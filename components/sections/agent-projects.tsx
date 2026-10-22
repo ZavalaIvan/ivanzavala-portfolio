@@ -1,10 +1,11 @@
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowLeft, ArrowRight, Bot, CalendarDays, Check, ShieldCheck } from "lucide-react"
-import { agentConcepts, agentCover, agentProjectCopy, type AgentProjectId } from "@/lib/agent-projects"
+import { ArrowLeft, ArrowRight, Check, ShieldCheck } from "lucide-react"
+import { agentCover, agentProjectCopy, type AgentProjectId } from "@/lib/agent-projects"
 import { pageHref, type Locale } from "@/lib/site"
 import { ContactCta, SectionHeading } from "@/components/section-ui"
 import { ProjectScreenshots } from "@/components/project-screenshots"
+import { PrototypeCards } from "@/components/sections/prototype-projects"
 
 const projectIds: AgentProjectId[] = ["carsa", "nora"]
 
@@ -21,12 +22,11 @@ export function AgentProjectCards({ locale, compact = false }: { locale: Locale;
 
 export function AgentProjectsSection({ locale }: { locale: Locale }) {
   const en = locale === "en"
-  const concepts = agentConcepts(locale)
   return <div className="flex flex-col gap-12 py-6">
-    <SectionHeading label={en ? "Selected work · AI agents" : "Mi trabajo · Agentes IA"} title={en ? "AI agents that connect conversations, data and tools" : "Agentes de IA que conectan conversaciones, datos y herramientas"} description={en ? "CARSA and NORA: two developed projects with different goals. Explore their architecture, functions and real development screenshots." : "CARSA y NORA: dos proyectos desarrollados con objetivos diferentes. Explora su arquitectura, sus funciones y las capturas reales del desarrollo."} />
+    <SectionHeading label={en ? "Selected work · AI agents" : "Mi trabajo · Agentes IA"} title={en ? "AI agents that connect conversations, data and tools" : "Agentes de IA que conectan conversaciones, datos y herramientas"} description={en ? "Explore CARSA and NORA, then try two custom-code prototypes with their interfaces, automation logic and documented connections." : "Explora CARSA y NORA y prueba dos prototipos con código a medida: sus interfaces, la lógica de automatización y sus conexiones documentadas."} />
     <section aria-labelledby="agent-cases"><h2 id="agent-cases" className="mb-5 text-sm font-mono uppercase tracking-wider text-muted-foreground">{en ? "Developed projects" : "Proyectos desarrollados"}</h2><AgentProjectCards locale={locale} /><p className="mt-3 text-xs text-muted-foreground">{en ? "Conceptual cover illustrations. Real screenshots are available inside each case study." : "Portadas ilustrativas. Las capturas reales están dentro de cada caso."}</p></section>
-    <section className="flex flex-col gap-5" aria-labelledby="agent-concepts"><div><p className="mb-2 text-xs font-mono uppercase tracking-wider text-muted-foreground">{en ? "Other applications" : "Otras aplicaciones"}</p><h2 id="agent-concepts" className="text-2xl font-semibold tracking-tight">{en ? "Two agents we could build for your business" : "Dos agentes que podemos desarrollar para tu negocio"}</h2><p className="mt-3 text-sm leading-relaxed text-muted-foreground">{en ? "These are application proposals, not completed client projects or working demos. Their integrations and scope would be defined for each business." : "Son propuestas de aplicación, no proyectos de clientes ya realizados ni demostraciones operativas. Sus integraciones y alcance se definirían para cada negocio."}</p></div>
-      <div className="grid gap-5 md:grid-cols-2">{concepts.map(concept => <article key={concept.id} className="flex flex-col gap-4 rounded-xl border border-dashed border-border bg-card/50 p-6"><div className="flex items-center justify-between gap-3">{concept.id === "support" ? <Bot aria-hidden="true" className="h-6 w-6" /> : <CalendarDays aria-hidden="true" className="h-6 w-6" />}<span className="rounded-full bg-secondary px-3 py-1 text-xs text-muted-foreground">{en ? "Concept proposal" : "Propuesta conceptual"}</span></div><h3 className="text-lg font-semibold">{concept.title}</h3><p className="text-sm leading-relaxed text-muted-foreground">{concept.description}</p><p className="rounded-lg border border-border bg-background p-4 text-sm leading-relaxed">{concept.example}</p><p className="mt-auto text-xs font-mono text-muted-foreground">{concept.stack}</p></article>)}</div>
+    <section className="flex flex-col gap-5" aria-labelledby="agent-prototypes"><div><p className="mb-2 text-xs font-mono uppercase tracking-wider text-muted-foreground">{en ? "Built with custom code" : "Desarrollados con código a medida"}</p><h2 id="agent-prototypes" className="text-2xl font-semibold tracking-tight">{en ? "Two prototypes you can explore inside" : "Dos prototipos que puedes explorar por dentro"}</h2><p className="mt-3 text-sm leading-relaxed text-muted-foreground">{en ? "Try guided examples, read the automation code and see how external tools could connect. Sample data is used; AI models and external accounts are not connected." : "Prueba ejemplos guiados, conoce el código de la automatización y descubre cómo se conectarían las herramientas externas. Se utilizan datos de ejemplo; los modelos de IA y las cuentas externas no están conectados."}</p></div>
+      <PrototypeCards locale={locale} />
     </section>
     <ContactCta locale={locale} title={en ? "What would you like your agent to do?" : "¿Qué te gustaría que hiciera tu agente?"}>{en ? "Tell me about the conversations, information and tools involved. We can define the agent's responsibilities, integrations and human approval points." : "Cuéntame qué conversaciones, información y herramientas intervienen. Podemos definir las tareas del agente, sus integraciones y los puntos de aprobación humana."}</ContactCta>
   </div>

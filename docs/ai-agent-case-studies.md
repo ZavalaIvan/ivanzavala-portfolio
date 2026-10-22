@@ -31,9 +31,9 @@ La descripción actual del Gateway indica observación pasiva, sin respuesta aut
 - Captura real de una vista previa publicitaria de Meta con botón de WhatsApp. El encuadre vertical se realiza mediante CSS sobre la captura original; el contenido del anuncio no se modifica.
 - Los diagramas de pasos son esquemas explicativos de la arquitectura, no demostraciones conectadas a los sistemas.
 
-## Propuestas adicionales
+## Prototipos adicionales con código a medida
 
-Agente de soporte técnico y agente de reservas/citas. Se identifican como propuestas conceptuales; no se presentan como trabajos ya realizados ni casos de clientes.
+NEXO (soporte técnico) y TURNO (reservas/citas) evolucionaron a prototipos propios documentados. Sus interfaces ejecutan reglas locales con datos de ejemplo. Se muestran capturas reales y fragmentos extraídos de los archivos fuente. El alcance y las conexiones se detallan en `docs/custom-agent-prototypes.md`. No se presentan como agentes de IA completos ni como trabajos de clientes.
 
 ## Mantenimiento
 

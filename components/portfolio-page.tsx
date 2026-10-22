@@ -7,6 +7,7 @@ import { ContactoSection } from "@/components/sections/contacto"
 import { ProyectosSection } from "@/components/sections/proyectos"
 import { ProjectsOverview } from "@/components/sections/projects-overview"
 import { AgentCaseStudy, AgentProjectsSection } from "@/components/sections/agent-projects"
+import { PrototypeCaseStudy } from "@/components/sections/prototype-projects"
 import { pageHref, pages, siteUrl, type Locale, type PageId } from "@/lib/site"
 
 function PageContent({ id, locale }: { id: PageId; locale: Locale }) {
@@ -16,6 +17,7 @@ function PageContent({ id, locale }: { id: PageId; locale: Locale }) {
     case "projects": return <ProjectsOverview locale={locale} />
     case "agents": return <AgentProjectsSection locale={locale} />
     case "carsa": case "nora": return <AgentCaseStudy id={id} locale={locale} />
+    case "supportAgent": case "bookingAgent": return <PrototypeCaseStudy id={id} locale={locale} />
     case "websites": return <ProyectosSection type="proyectos-sitios" locale={locale} />
     case "webapps": return <ProyectosSection type="proyectos-apps" locale={locale} />
     case "aitools": return <ProyectosSection type="proyectos-ai-tools" locale={locale} />
@@ -35,7 +37,7 @@ export function PortfolioPage({ id, locale }: { id: PageId; locale: Locale }) {
   const json = JSON.stringify({ "@context": "https://schema.org", "@graph": graph }).replace(/</g, "\\u003c")
   return <>
     <a href="#contenido" className="sr-only focus-visible:not-sr-only focus-visible:fixed focus-visible:top-3 focus-visible:left-3 focus-visible:z-[100] focus-visible:rounded-md focus-visible:bg-primary focus-visible:px-4 focus-visible:py-2 focus-visible:text-primary-foreground">{locale === "es" ? "Saltar al contenido" : "Skip to content"}</a>
-    <div className="flex min-h-screen"><SidebarNav activePage={id} locale={locale} /><main id="contenido" tabIndex={-1} className="min-w-0 flex-1 outline-none"><div className={`mx-auto px-6 py-16 lg:px-12 lg:py-12 ${["agents", "carsa", "nora"].includes(id) ? "max-w-6xl" : "max-w-3xl"}`}><PageContent id={id} locale={locale} /></div></main></div>
+    <div className="flex min-h-screen"><SidebarNav activePage={id} locale={locale} /><main id="contenido" tabIndex={-1} className="min-w-0 flex-1 outline-none"><div className={`mx-auto px-6 py-16 lg:px-12 lg:py-12 ${["agents", "carsa", "nora", "supportAgent", "bookingAgent"].includes(id) ? "max-w-6xl" : "max-w-3xl"}`}><PageContent id={id} locale={locale} /></div></main></div>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: json }} />
   </>
 }

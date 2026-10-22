@@ -46,6 +46,10 @@ El selector utiliza `/choose-language`, guarda una cookie de preferencia durante
 
 Los proyectos recientes identifican los estados **Listo** y **En desarrollo**. Las galerías separan las demostraciones de los sitios publicados. Actualiza esos estados cuando exista una entrega confirmada.
 
+La colección de agentes incluye los casos CARSA y NORA, además de NEXO (soporte) y TURNO (reservas), dos prototipos propios con código a medida. Sus demos ejecutan reglas locales con datos de ejemplo; los modelos de IA y las cuentas externas no están conectados. El explorador muestra fragmentos reales del código y distingue reglas ejecutadas, contratos y adaptadores preparados. Consulta `docs/custom-agent-prototypes.md` para conocer el alcance.
+
+Para comprobar las reglas de diagnóstico, disponibilidad y los contratos HTTP sin realizar solicitudes externas: `node scripts/verify-agent-prototypes.cjs`.
+
 El formulario de contacto prepara un mensaje local para que el visitante lo revise y envíe desde su correo o WhatsApp. No almacena consultas ni envía mensajes automáticamente. Las condiciones de garantía y el costo del mantenimiento se acuerdan en cada propuesta.
 
 ## Servicios de contadores QR
